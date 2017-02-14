@@ -1,0 +1,54 @@
+﻿@using mm.Models
+@Model EventsView
+
+@{
+    ViewData["Title"] = "Home Page";
+
+}
+
+<style>
+    .vcenter {
+        display: inline-block;
+        vertical-align: middle;
+        float: none;
+    }
+</style>
+<div>
+    @using (Html.BeginForm())
+    {
+        <table>
+            @foreach (var evt in Model.Events)
+            {
+                <tr>
+                    @if (evt.Skipped)
+                    {
+                        <td>
+                            <h3>@evt.WhenDisplay</h3>
+                        </td>
+                        <td>
+                            <h3>Skipped</h3>
+                        </td>
+                    }
+                    else
+                    {
+                        <td><h3>@evt.WhenDisplay</h3></td>
+                        <td>
+                            @if (evt.Giving > 0)
+                            {
+                                <button type="submit" name="submit" value="@evt.WhenId:@evt.Giving:0" class="btn btn-primary">@Model.GetName(evt.Giving)</button>
+                            }
+                            @foreach (var pp in evt.Participating)
+                            {
+                                <button type="submit" name="submit" value="@evt.WhenId:@pp:1" class="btn btn-success">@Model.GetName(pp)</button>
+                            }
+                            @foreach (var pp in evt.NotParticipating)
+                            {
+                                <button type="submit" name="submit" value="@evt.WhenId:@pp:2" class="btn btn-danger">@Model.GetName(pp)</button>
+                            }
+                        </td>
+                    }
+                </tr>
+            }
+        </table>
+    }
+</div>
