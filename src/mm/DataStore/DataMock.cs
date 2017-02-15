@@ -9,20 +9,8 @@ namespace mm.DataStore
     public class DataMock : IDataStore
     {
         List<Team> _teams = new List<Team> { };
-        List<Person> _persons = new List<Person>
-        {
-            new Person { UserId = "CAJRG", LastGave = new DateTime(2016,10,14), Deleted=new DateTime(2016,10,14) },
-            new Person { UserId = "JEHE", LastGave = new DateTime(2016,11,25) },
-            new Person { UserId = "RCHI", LastGave = new DateTime(2016,12,09) },
-            new Person { UserId = "VAAL", LastGave = new DateTime(2016,12,16) },
-            new Person { UserId = "KEPET", LastGave = new DateTime(2016,12,23) },
-            new Person { UserId = "TBER", LastGave = new DateTime(2017,01,06), Deleted=new DateTime(2017,01,30) },
-            new Person { UserId = "IO", LastGave = new DateTime(2017,01,13) },
-            new Person { UserId = "YLI", LastGave = new DateTime(2017,01,20) },
-            new Person { UserId = "LEDY", LastGave = new DateTime(2017,01,27) },
-            new Person { UserId = "ALLLA", LastGave = new DateTime(2017,02,03) },
-            new Person { UserId = "MGL", LastGave = new DateTime(2017,02,10) },
-        };
+        List<Person> _persons = new List<Person> { };
+
         List<Event> _events = new List<Event> { };
         List<Participant> _participation = new List<Participant> { };
 
@@ -81,5 +69,11 @@ namespace mm.DataStore
             }
         }
 
+        public void DeletePerson(int id)
+        {
+            var person = _persons.Find(p => p.Id == id);
+            if (person != null)
+                person.Deleted = DateTime.Now;
+        }
     }
 }

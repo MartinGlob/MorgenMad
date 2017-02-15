@@ -11,29 +11,28 @@ namespace Tests
 {
     public class NextGiverTests
     {
-        Breakfast _b;
-        IDataStore _db;
-        int _teamId;
+
+        IDataStore _ds;
 
         public NextGiverTests()
         {
-            _db = new DataMock();
-            _b = new Breakfast(_db);
+            _ds = new DataMock();
         }
 
         [Fact]
         public void NextGiverEmptyList()
         {
-            var persons = TestData.CreatePersons(0);
-            var l = _b.WhoIsNextList(persons);
+            var b = new Breakfast(_ds, 1);
+            var l = b.WhoIsNextList();
             Assert.Empty(l);
         }
 
         [Fact]
         public void SingleNewPersonNeverGave()
         {
-            var persons = TestData.CreatePersons(1);
-            var l = _b.WhoIsNextList(persons);
+
+            TestData.AddPersons(_ds, 1);
+            var l = new Breakfast(_ds, 1).WhoIsNextList();
             Assert.Equal(1, l.Count());
             Assert.Equal(1, l[0].Id);
         }
@@ -41,10 +40,10 @@ namespace Tests
         [Fact]
         public void FivePersonsAllGave()
         {
-            var persons = TestData.CreatePersons(5);
+            TestData.AddPersons(_ds, 5);
 
-            var l = _b.WhoIsNextList(persons);
-            Assert.Equal(persons.Count, l.Count());
+            var l = new Breakfast(_ds, 1).WhoIsNextList();
+            Assert.Equal(5, l.Count());
 
             Assert.Equal(1, l[0].Id);
             Assert.Equal(2, l[1].Id);
@@ -56,14 +55,15 @@ namespace Tests
         [Fact]
         public void AddNewPersonToFivePersonsAllGave()
         {
-            var persons = TestData.CreatePersons(5);
+            TestData.AddPersons(_ds, 5);
 
-            persons.Add(new Person { Id = 50 });
+            var idAdded = _ds.AddPerson(new Person { Id = 50, TeamId = 1 });
 
-            var l = _b.WhoIsNextList(persons);
-            Assert.Equal(persons.Count, l.Count());
+            var l = new Breakfast(_ds, 1).WhoIsNextList();
+            Assert.Equal(6, l.Count());
+
             Assert.Equal(1, l[0].Id);
-            Assert.Equal(50, l[1].Id);
+            Assert.Equal(idAdded, l[1].Id);
             Assert.Equal(2, l[2].Id);
             Assert.Equal(3, l[3].Id);
             Assert.Equal(4, l[4].Id);
@@ -73,11 +73,11 @@ namespace Tests
         [Fact]
         public void FivePersonsOneDeletedAllGave()
         {
-            var persons = TestData.CreatePersons(5);
-            persons[2].Deleted = DateTime.Now;
+            TestData.AddPersons(_ds, 5);
+            _ds.DeletePerson(3);
 
-            var l = _b.WhoIsNextList(persons);
-            Assert.Equal(persons.Count - 1, l.Count());
+            var l = new Breakfast(_ds, 1).WhoIsNextList();
+            Assert.Equal(5 - 1, l.Count());
             Assert.Equal(1, l[0].Id);
             Assert.Equal(2, l[1].Id);
             Assert.Equal(4, l[2].Id);
@@ -87,10 +87,10 @@ namespace Tests
         [Fact]
         public void TwoNewPersonNeverGave()
         {
-            var persons = TestData.CreatePersons(2, noLastGaveDate: true);
+            TestData.AddPersons(_ds, 2, noLastGaveDate: true);
 
-            var l = _b.WhoIsNextList(persons);
-            Assert.Equal(persons.Count, l.Count());
+            var l = new Breakfast(_ds, 1).WhoIsNextList();
+            Assert.Equal(2, l.Count());
             Assert.Equal(1, l[0].Id);
             Assert.Equal(2, l[1].Id);
         }

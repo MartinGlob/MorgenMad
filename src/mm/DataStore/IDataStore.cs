@@ -13,6 +13,7 @@ namespace mm.DataStore
 
         int AddPerson(Person person);
         List<Person> GetPersons(int teamId);
+        void DeletePerson(int id);
         List<Event> GetEvents(int teamId, DateTime fromDate);
 
         List<Participant> GetParticipations(int teamId);

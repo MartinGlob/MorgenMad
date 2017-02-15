@@ -11,18 +11,23 @@ namespace mm.Logic
     public class Breakfast
     {
         IDataStore _db;
+        int _teamId;
 
+        List<Person> _persons;
 
-        public Breakfast(IDataStore db)
+        public Breakfast(IDataStore db, int teamId)
         {
             _db = db;
+            _teamId = teamId;
+
+            _persons = _db.GetPersons(_teamId);
         }
 
-        public List<Person> WhoIsNextList(List<Person> persons)
+        public List<Person> WhoIsNextList()
         {
-            var oldestGiver = persons.FindAll(p => p.Deleted == null && p.LastGave != null).Min(p => p.LastGave);
+            var oldestGiver = _persons.FindAll(p => p.Deleted == null && p.LastGave != null).Min(p => p.LastGave);
 
-            var list = persons.FindAll(p => p.Deleted == null).OrderBy(p => p.Created);
+            var list = _persons.FindAll(p => p.Deleted == null).OrderBy(p => p.Created);
 
             var seedDateTime = oldestGiver ?? DateTime.Now;
             foreach(var person in list)
@@ -39,7 +44,7 @@ namespace mm.Logic
         public EventsView CreateEventList(int teamId)
         {
 
-            var nextGivers = WhoIsNextList(_db.GetPersons(teamId));
+            var nextGivers = WhoIsNextList();
 
             //Dictionary<int, DateTime?> _lastGave = new Dictionary<int, DateTime?>();
 

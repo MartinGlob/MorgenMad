@@ -19,7 +19,7 @@ namespace mm.Controllers
 
         public IActionResult Index(string submit)
         {
-            var b = new Breakfast(_ds);
+            var b = new Breakfast(_ds,1);
 
             if (submit != null)
             {
