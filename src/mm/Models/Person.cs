@@ -87,7 +87,7 @@ namespace mm.Models
         public DateTime When { get; set; }
         public bool Skipped { get; set; }
         public string WhenDisplay { get; set; }
-        public Person Giving { get; set; }
+        public Person Buying { get; set; }
         public List<Person> Participating { get; set; }
         public List<Person> NotParticipating { get; set; }
 

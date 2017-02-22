@@ -82,14 +82,14 @@ namespace mm.Logic
                     continue;
                 }
 
-                be.Giving = _persons.FirstOrDefault(p => p.Id == participantGiving.PersonId);
+                be.Buying = _persons.FirstOrDefault(p => p.Id == participantGiving.PersonId);
 
                 be.NotParticipating = (from np in _participants
                                        where np.When == breakfastDate && np.Participating == Participation.NotParticipating
                                        join p in _persons on np.PersonId equals p.Id
                                        select p).OrderBy(p => p.UserId).ToList();
 
-                be.Participating = _persons.Where(p => p.WasActive(be.When) && p.Id != be.Giving.Id && !be.NotParticipating.Any(np => np.Id == p.Id)).OrderBy(p => p.UserId).ToList();
+                be.Participating = _persons.Where(p => p.WasActive(be.When) && p.Id != be.Buying.Id && !be.NotParticipating.Any(np => np.Id == p.Id)).OrderBy(p => p.UserId).ToList();
 
                 view.Breakfasts.Add(be);
             }
@@ -103,12 +103,12 @@ namespace mm.Logic
                                        join p in _persons on np.PersonId equals p.Id
                                        select p).OrderBy(p => p.UserId).ToList();
 
-                be.Giving = NextGiver(be.NotParticipating);
+                be.Buying = NextGiver(be.NotParticipating);
 
-                if (be.Giving != null)
+                if (be.Buying != null)
                 {
-                    be.Participating = _persons.Where(p => p.WasActive(be.When) && p.Id != be.Giving.Id && !be.NotParticipating.Any(np => np.Id == p.Id)).OrderBy(p => p.UserId).ToList();
-                    be.Giving.LastGave = be.When;
+                    be.Participating = _persons.Where(p => p.WasActive(be.When) && p.Id != be.Buying.Id && !be.NotParticipating.Any(np => np.Id == p.Id)).OrderBy(p => p.UserId).ToList();
+                    be.Buying.LastGave = be.When;
                 }
                 else
                 {

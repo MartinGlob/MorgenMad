@@ -15,40 +15,45 @@
 <div>
     @using (Html.BeginForm())
     {
-        <table>
-            @foreach (var breakfast in Model.Breakfasts)
-            {
-               var disabled =breakfast.When < DateTime.Now ? " disabled " : ""; 
-                <tr class="b">
-                    @if (breakfast.Skipped)
-                    {
+        <table class="table">
+            <thead>
+                <tr>
+                    <th>Date</th>
+                    <th>Buying</th>
+                    <th>Participating</th>
+                    <th>OOO</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var breakfast in Model.Breakfasts)
+                {
+                    var disabled = breakfast.When < DateTime.Now ? " disabled " : "";
+
+                    <tr>
+                        <td><b>@breakfast.When.ToString("dd-MMM")</b></td>
                         <td>
-                            <h3>@breakfast.When</h3>
-                        </td>
-                        <td>
-                            <h3>Skipped</h3>
-                        </td>
-                    }
-                    else
-                    {
-                        <td><h3>@breakfast.When.ToString("dd-MMM")</h3></td>
-                        <td>
-                            @if (breakfast.Giving != null)
+                            @if (breakfast.Buying != null)
                             {
-                                <button @disabled type="submit" name="submit" value="@breakfast.CreateClickId(breakfast.Giving, Participation.Buying)" class="btn btn-primary">@breakfast.Giving.UserId</button>
+                                <button @disabled type="submit" name="submit" value="@breakfast.CreateClickId(breakfast.Buying, Participation.Buying)" class="btn btn-sm btn-primary">@breakfast.Buying.UserId</button>
                             }
+                        </td>
+                        <td>
                             @foreach (var p in breakfast.Participating)
                             {
-                                <button @disabled type="submit" name="submit" value="@breakfast.CreateClickId(p,Participation.Participating)" class="btn btn-success">@p.UserId</button>
-                            }
-                            @foreach (var p in breakfast.NotParticipating)
-                            {
-                                <button @disabled type="submit" name="submit" value="@breakfast.CreateClickId(p,Participation.NotParticipating)" class="btn btn-danger">@p.UserId</button>
+                                <button @disabled type="submit" name="submit" value="@breakfast.CreateClickId(p, Participation.Participating)" class="btn btn-sm btn-success">@p.UserId</button>
                             }
                         </td>
-                    }
-                </tr>
-            }
+                        <td>
+                            @foreach (var p in breakfast.NotParticipating)
+                            {
+                                <button @disabled type="submit" name="submit" value="@breakfast.CreateClickId(p, Participation.NotParticipating)" class="btn btn-sm btn-danger">@p.UserId</button>
+                            }
+                        </td>
+                    </tr>
+                }
+            </tbody>
         </table>
+
+
     }
 </div>
