@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using mm.DataStore;
 using mm.Logic;
+using mm.Models;
 
 namespace mm.Controllers
 {
@@ -15,23 +16,21 @@ namespace mm.Controllers
         public HomeController(IDataStore dataStore)
         {
             _ds = dataStore;
+            
         }
 
         public IActionResult Index(string submit)
         {
-            var b = new Breakfast(_ds,1);
+            var b = new BreakfastLogic(_ds,2);
 
             if (submit != null)
             {
-                var a = submit.Split(':');
-                var when = DateTime.ParseExact(a[0], "yyyyMMdd", null);
-                var who = int.Parse(a[1]);
-                var oldState = int.Parse(a[2]);
+                var p = Breakfast.DecodeClickId(submit);
 
-                b.ChangeParticipation(when, who, oldState);
+                b.ChangeParticipation(p);
             }
 
-            return View(b.CreateEventList(1));
+            return View(b.CreateEventList(2, DateTime.Now.AddDays(-21)));
         }
 
         public IActionResult About()

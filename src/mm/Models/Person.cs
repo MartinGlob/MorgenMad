@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Threading.Tasks;
 
@@ -17,7 +18,27 @@ namespace mm.Models
 
         public Person()
         {
-            Created = DateTime.Now;
+            Created = DateTime.MinValue;
+        }
+
+        public Person(Person p)
+        {
+            Id = p.Id;
+            TeamId = p.TeamId;
+            Created = p.Created;
+            Deleted = p.Deleted;
+            UserId = p.UserId;
+            EMail = p.EMail;
+            LastGave = p.LastGave;
+        }
+
+        internal bool WasActive(DateTime when)
+        {
+            if (Created > when)
+                return false;
+            if (Deleted.HasValue && Deleted.Value <= when)
+                return false;
+            return true;
         }
     }
 
@@ -38,36 +59,67 @@ namespace mm.Models
         public EventStatus Status { get; set; }
     }
 
-    public enum Participation { Buying, Participating, NotParticipating }
+    public enum Participation { Buying=1, Participating=2, NotParticipating=3 }
 
     public class Participant
     {
+        public Participant()
+        {
+
+        }
+
+        public Participant(Participant p)
+        {
+            TeamId = p.TeamId;
+            When = p.When;
+            PersonId = p.PersonId;
+            Participating = p.Participating;
+        }
+
         public int TeamId { get; set; }
         public DateTime When { get; set; }
         public int PersonId { get; set; }
         public Participation Participating { get; set; }
     }
 
-    public class EventListItem
+    public class Breakfast
     {
+        public DateTime When { get; set; }
         public bool Skipped { get; set; }
         public string WhenDisplay { get; set; }
-        public string WhenId { get; set; }
         public Person Giving { get; set; }
         public List<Person> Participating { get; set; }
         public List<Person> NotParticipating { get; set; }
+
+        public string CreateClickId(Person person, Participation status)
+        {
+            return $"{When:yyyyMMdd}:{person.Id}:{status.ToString("D")}";
+        }
+
+        public static Participant DecodeClickId(string id)
+        {
+            var r = new Participant();
+
+            var a = id.Split(':');
+            r.When = DateTime.ParseExact(a[0], "yyyyMMdd", null);
+            r.PersonId = int.Parse(a[1]);
+            r.Participating =(Participation) Enum.Parse(typeof(Participation), a[2]);
+
+            return r;
+        }
+
     }
 
-    public class EventsView
+    public class BreakfastsView
     {
-        public EventsView()
+        public BreakfastsView()
         {
             //Persons = new List<Person>();
-            Events = new List<EventListItem>();
+            Breakfasts = new List<Breakfast>();
         }
 
         //public List<Person> Persons { get; set; }
-        public List<EventListItem> Events { get; set; }
+        public List<Breakfast> Breakfasts { get; set; }
 
         //public Person GetPerson(int id)
         //{

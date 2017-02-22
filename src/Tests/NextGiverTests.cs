@@ -16,14 +16,14 @@ namespace Tests
 
         public NextGiverTests()
         {
-            _ds = new DataMock();
+            _ds = new DataMock(false);
         }
 
         [Fact]
         public void NextGiverEmptyList()
         {
-            var b = new Breakfast(_ds, 1);
-            var l = b.WhoIsNextList();
+            var b = new BreakfastLogic(_ds, 1);
+            var l = b.NextGiverList(null);
             Assert.Empty(l);
         }
 
@@ -32,7 +32,7 @@ namespace Tests
         {
 
             TestData.AddPersons(_ds, 1);
-            var l = new Breakfast(_ds, 1).WhoIsNextList();
+            var l = new BreakfastLogic(_ds, 1).NextGiverList(null);
             Assert.Equal(1, l.Count());
             Assert.Equal(1, l[0].Id);
         }
@@ -42,7 +42,7 @@ namespace Tests
         {
             TestData.AddPersons(_ds, 5);
 
-            var l = new Breakfast(_ds, 1).WhoIsNextList();
+            var l = new BreakfastLogic(_ds, 1).NextGiverList(null);
             Assert.Equal(5, l.Count());
 
             Assert.Equal(1, l[0].Id);
@@ -59,7 +59,7 @@ namespace Tests
 
             var idAdded = _ds.AddPerson(new Person { Id = 50, TeamId = 1 });
 
-            var l = new Breakfast(_ds, 1).WhoIsNextList();
+            var l = new BreakfastLogic(_ds, 1).NextGiverList(null);
             Assert.Equal(6, l.Count());
 
             Assert.Equal(1, l[0].Id);
@@ -76,7 +76,7 @@ namespace Tests
             TestData.AddPersons(_ds, 5);
             _ds.DeletePerson(3);
 
-            var l = new Breakfast(_ds, 1).WhoIsNextList();
+            var l = new BreakfastLogic(_ds, 1).NextGiverList(null);
             Assert.Equal(5 - 1, l.Count());
             Assert.Equal(1, l[0].Id);
             Assert.Equal(2, l[1].Id);
@@ -89,10 +89,13 @@ namespace Tests
         {
             TestData.AddPersons(_ds, 2, noLastGaveDate: true);
 
-            var l = new Breakfast(_ds, 1).WhoIsNextList();
+            var l = new BreakfastLogic(_ds, 1).NextGiverList(null);
             Assert.Equal(2, l.Count());
-            Assert.Equal(1, l[0].Id);
-            Assert.Equal(2, l[1].Id);
+
+            Assert.NotNull(l[0].LastGave);
+            Assert.NotNull(l[1].LastGave);
+
+            Assert.True(l[0].LastGave < l[1].LastGave);
         }
 
     }

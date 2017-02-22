@@ -30,8 +30,6 @@ namespace mm
         {
             // Add framework services.
             services.AddMvc();
-
-//            services.AddTransient<IDataStore, DataMock>();
             services.AddSingleton<IDataStore, DataMock>();
         }
 

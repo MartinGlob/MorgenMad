@@ -16,8 +16,8 @@ namespace mm.DataStore
         void DeletePerson(int id);
         List<Event> GetEvents(int teamId, DateTime fromDate);
 
-        List<Participant> GetParticipations(int teamId);
-        void AddParticipation(DateTime when, int teamId, int personId, Participation participation);
+        List<Participant> GetParticipants(int teamId);
+        void AddParticipant(DateTime when, int teamId, int personId, Participation participation);
         void RemoveParticipation(DateTime when, int personId);
     }
 }

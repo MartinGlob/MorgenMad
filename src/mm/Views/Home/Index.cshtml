@@ -1,9 +1,8 @@
 ﻿@using mm.Models
-@Model EventsView
+@model BreakfastsView
 
 @{
     ViewData["Title"] = "Home Page";
-
 }
 
 <style>
@@ -17,13 +16,14 @@
     @using (Html.BeginForm())
     {
         <table>
-            @foreach (var evt in Model.Events)
+            @foreach (var breakfast in Model.Breakfasts)
             {
-                <tr>
-                    @if (evt.Skipped)
+               var disabled =breakfast.When < DateTime.Now ? " disabled " : ""; 
+                <tr class="b">
+                    @if (breakfast.Skipped)
                     {
                         <td>
-                            <h3>@evt.WhenDisplay</h3>
+                            <h3>@breakfast.When</h3>
                         </td>
                         <td>
                             <h3>Skipped</h3>
@@ -31,19 +31,19 @@
                     }
                     else
                     {
-                        <td><h3>@evt.WhenDisplay</h3></td>
+                        <td><h3>@breakfast.When.ToString("dd-MMM")</h3></td>
                         <td>
-                            @if (evt.Giving > 0)
+                            @if (breakfast.Giving != null)
                             {
-                                <button type="submit" name="submit" value="@evt.WhenId:@evt.Giving:0" class="btn btn-primary">@Model.GetName(evt.Giving)</button>
+                                <button @disabled type="submit" name="submit" value="@breakfast.CreateClickId(breakfast.Giving, Participation.Buying)" class="btn btn-primary">@breakfast.Giving.UserId</button>
                             }
-                            @foreach (var pp in evt.Participating)
+                            @foreach (var p in breakfast.Participating)
                             {
-                                <button type="submit" name="submit" value="@evt.WhenId:@pp:1" class="btn btn-success">@Model.GetName(pp)</button>
+                                <button @disabled type="submit" name="submit" value="@breakfast.CreateClickId(p,Participation.Participating)" class="btn btn-success">@p.UserId</button>
                             }
-                            @foreach (var pp in evt.NotParticipating)
+                            @foreach (var p in breakfast.NotParticipating)
                             {
-                                <button type="submit" name="submit" value="@evt.WhenId:@pp:2" class="btn btn-danger">@Model.GetName(pp)</button>
+                                <button @disabled type="submit" name="submit" value="@breakfast.CreateClickId(p,Participation.NotParticipating)" class="btn btn-danger">@p.UserId</button>
                             }
                         </td>
                     }
