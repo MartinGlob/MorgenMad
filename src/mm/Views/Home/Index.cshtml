@@ -13,47 +13,54 @@
     }
 </style>
 <div>
-    @using (Html.BeginForm())
-    {
-        <table class="table">
-            <thead>
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Date</th>
+                <th>Buying</th>
+                <th>Participating</th>
+                <th>OOO</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var breakfast in Model.Breakfasts)
+            {
+                var disabled = breakfast.When < DateTime.Now ? " disabled " : "";
+
                 <tr>
-                    <th>Date</th>
-                    <th>Buying</th>
-                    <th>Participating</th>
-                    <th>OOO</th>
+                    <td><b>@breakfast.When.ToString("dd-MMM")</b></td>
+                    <td>
+                        @if (breakfast.Buying != null)
+                        {
+                            <div class="dropdown">
+                                <button class="btn btn-sm btn-primary dropdown-toggle" type="button" data-toggle="dropdown">
+                                    @breakfast.Buying.UserId
+                                    <span class="caret"></span>
+                                </button>
+                                <ul class="dropdown-menu">
+                                    <li><a href="@breakfast.GenChangeLink(breakfast.Buying, Participation.Buying)">@breakfast.Buying.UserId is OOO</a></li>
+                                    @foreach (var p in breakfast.Participating)
+                                    {
+                                        <li><a href="@breakfast.GenChangeLink(p, Participation.Override)">@p.UserId</a></li>
+                                    }
+                                </ul>
+                            </div>
+                        }
+                    </td>
+                    <td>
+                        @foreach (var p in breakfast.Participating)
+                        {
+                            <a href="@breakfast.GenChangeLink(p, Participation.Participating)" class="btn btn-sm btn-success @disabled" role="button">@p.UserId</a>
+                        }
+                    </td>
+                    <td>
+                        @foreach (var p in breakfast.NotParticipating)
+                        {
+                            <a href="@breakfast.GenChangeLink(p, Participation.NotParticipating)" class="btn btn-sm btn-danger @disabled" role="button">@p.UserId</a>
+                        }
+                    </td>
                 </tr>
-            </thead>
-            <tbody>
-                @foreach (var breakfast in Model.Breakfasts)
-                {
-                    var disabled = breakfast.When < DateTime.Now ? " disabled " : "";
-
-                    <tr>
-                        <td><b>@breakfast.When.ToString("dd-MMM")</b></td>
-                        <td>
-                            @if (breakfast.Buying != null)
-                            {
-                                <button @disabled type="submit" name="submit" value="@breakfast.CreateClickId(breakfast.Buying, Participation.Buying)" class="btn btn-sm btn-primary">@breakfast.Buying.UserId</button>
-                            }
-                        </td>
-                        <td>
-                            @foreach (var p in breakfast.Participating)
-                            {
-                                <button @disabled type="submit" name="submit" value="@breakfast.CreateClickId(p, Participation.Participating)" class="btn btn-sm btn-success">@p.UserId</button>
-                            }
-                        </td>
-                        <td>
-                            @foreach (var p in breakfast.NotParticipating)
-                            {
-                                <button @disabled type="submit" name="submit" value="@breakfast.CreateClickId(p, Participation.NotParticipating)" class="btn btn-sm btn-danger">@p.UserId</button>
-                            }
-                        </td>
-                    </tr>
-                }
-            </tbody>
-        </table>
-
-
-    }
+            }
+        </tbody>
+    </table>
 </div>

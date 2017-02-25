@@ -59,7 +59,7 @@ namespace mm.Models
         public EventStatus Status { get; set; }
     }
 
-    public enum Participation { Buying=1, Participating=2, NotParticipating=3 }
+    public enum Participation { Buying=1, Participating=2, NotParticipating=3,Override=4 }
 
     public class Participant
     {
@@ -91,12 +91,13 @@ namespace mm.Models
         public List<Person> Participating { get; set; }
         public List<Person> NotParticipating { get; set; }
 
-        public string CreateClickId(Person person, Participation status)
+        public string GenChangeLink(Person person, Participation status)
         {
-            return $"{When:yyyyMMdd}:{person.Id}:{status.ToString("D")}";
+            // / Home / ChangeStatus / 123
+            return $"/Home/ChangeStatus/{When:yyyyMMdd}:{person.Id}:{status.ToString("D")}";
         }
-
-        public static Participant DecodeClickId(string id)
+         
+        public static Participant DecodeChangeId(string id)
         {
             var r = new Participant();
 
@@ -114,22 +115,9 @@ namespace mm.Models
     {
         public BreakfastsView()
         {
-            //Persons = new List<Person>();
             Breakfasts = new List<Breakfast>();
         }
 
-        //public List<Person> Persons { get; set; }
         public List<Breakfast> Breakfasts { get; set; }
-
-        //public Person GetPerson(int id)
-        //{
-        //    return Persons.Find(p => p.Id == id);
-        //}
-
-        //public string GetName(int id)
-        //{
-        //    var p = Persons.Find(x => x.Id == id);
-        //    return p == null ? "" : p.UserId;
-        //}
     }
 }

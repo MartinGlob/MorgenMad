@@ -19,5 +19,7 @@ namespace mm.DataStore
         List<Participant> GetParticipants(int teamId);
         void AddParticipant(DateTime when, int teamId, int personId, Participation participation);
         void RemoveParticipation(DateTime when, int personId);
+        void RemoveSpecificParticipation(DateTime when, int teamId, Participation status);
+
     }
 }

@@ -49,7 +49,8 @@ namespace mm.DataStore
             AddParticipant(new DateTime(2017, 02, 10), 2, idJEHE, Participation.NotParticipating);
             AddParticipant(new DateTime(2017, 02, 10), 2, idRCHI, Participation.NotParticipating);
 
-            AddParticipant(new DateTime(2017, 02, 17), 2,idVAAL, Participation.Buying);
+            AddParticipant(new DateTime(2017, 02, 17), 2, idVAAL, Participation.Buying);
+            AddParticipant(new DateTime(2017, 02, 24), 2, idRCHI, Participation.Buying);
 
             AddParticipant(new DateTime(2017, 03, 17), 2, idMGL, Participation.NotParticipating);
 
@@ -108,6 +109,15 @@ namespace mm.DataStore
         public void RemoveParticipation(DateTime when, int personId)
         {
             var idx = _participation.FindIndex(x => x.When.Date == when.Date && x.PersonId == personId);
+            if (idx >= 0)
+            {
+                _participation.RemoveAt(idx);
+            }
+        }
+
+        public void RemoveSpecificParticipation(DateTime when, int teamId, Participation status)
+        {
+            var idx = _participation.FindIndex(x => x.When.Date == when.Date && x.TeamId == teamId && x.Participating == status);
             if (idx >= 0)
             {
                 _participation.RemoveAt(idx);

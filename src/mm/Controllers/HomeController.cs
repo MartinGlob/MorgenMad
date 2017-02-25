@@ -25,13 +25,28 @@ namespace mm.Controllers
 
             if (submit != null)
             {
-                var p = Breakfast.DecodeClickId(submit);
+                var p = Breakfast.DecodeChangeId(submit);
 
                 b.ChangeParticipation(p);
             }
 
             return View(b.CreateEventList(2, DateTime.Now.AddDays(-21)));
         }
+
+        public IActionResult ChangeStatus(string id)
+        {
+            var b = new BreakfastLogic(_ds, 2);
+
+            if (id != null)
+            {
+                var p = Breakfast.DecodeChangeId(id);
+
+                b.ChangeParticipation(p);
+            }
+
+            return View("Index",b.CreateEventList(2, DateTime.Now.AddDays(-21)));
+        }
+
 
         public IActionResult About()
         {
