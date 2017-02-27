@@ -39,22 +39,32 @@ namespace mm.Logic
 
         public List<Person> NextGiverList()
         {
-            var lastGave = (from n in _persons
-                            where n.Deleted == null
-                            group n by n.Id into g
-                            select g.OrderByDescending(t => t.LastGave).FirstOrDefault()).ToList().OrderBy(p => p.LastGave);
+            var givers = _persons.FindAll(x => x.Deleted == null);
 
+            Person oldest = new Person { LastGave = DateTime.MaxValue };
 
-            var oldest = lastGave.FirstOrDefault(p => p.LastGave != null);
+            foreach (var p in _participants.FindAll(p => p.Participating == Participation.Buying))
+            {
+                var giver = givers.Find(g => g.Id == p.PersonId);
+                if (giver == null)
+                    continue;
+                giver.LastGave = p.When > giver.LastGave ? p.When : giver.LastGave;
+
+                if (giver.LastGave < oldest.LastGave)
+                    oldest = giver;
+            }
+
+            givers = givers.OrderBy(g => g.LastGave).ToList();
+
             var seedDate = oldest?.LastGave ?? DateTime.Now.Date;
 
-            foreach (var p in lastGave.Where(x => x.LastGave == null))
+            foreach (var p in givers.Where(x => x.LastGave == null))
             {
                 p.LastGave = seedDate;
                 seedDate = seedDate.AddSeconds(1);
             }
 
-            return lastGave.ToList();
+            return givers.ToList();
         }
 
         public BreakfastsView CreateEventList(int teamId, DateTime fromDate)
@@ -103,7 +113,7 @@ namespace mm.Logic
                                        select p).OrderBy(p => p.UserId).ToList();
 
                 be.Buying = (from b in _participants
-                             where b.When.Date == nextDate.Date && b.Participating == Participation.Buying
+                             where b.When.Date == nextDate.Date &&( b.Participating == Participation.Buying || b.Participating == Participation.Override)
                              join p in _persons on b.PersonId equals p.Id
                              select p).FirstOrDefault();
 
@@ -116,6 +126,12 @@ namespace mm.Logic
                 {
                     be.Participating = _persons.Where(p => p.WasActive(be.When) && p.Id != be.Buying.Id && !be.NotParticipating.Any(np => np.Id == p.Id)).OrderBy(p => p.UserId).ToList();
                     be.Buying.LastGave = be.When;
+
+                    var idx = _participants.FindIndex(p => p.Participating == Participation.Buying && p.When == be.When);
+                    if (idx >= 0)
+                        _participants.RemoveAt(idx);
+
+                    _participants.Add(new Participant { Participating = Participation.Buying, PersonId = be.Buying.Id, TeamId = _teamId, When = be.When });
                 }
                 else
                 {

@@ -14,7 +14,7 @@ namespace mm.Models
         public DateTime? Deleted { get; set; }
         public string UserId { get; set; }
         public string EMail { get; set; }
-        public DateTime? LastGave { get; set; }
+        //public DateTime? LastGave { get; set; }
 
         public Person()
         {
