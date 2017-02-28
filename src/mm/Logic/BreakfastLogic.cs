@@ -24,7 +24,7 @@ namespace mm.Logic
 
         public Person NextGiver(List<Person> notParticipating)
         {
-            var list = NextGiverList();
+            var list = WhoIsNextList();
 
             foreach (var g in list)
             {
@@ -37,34 +37,20 @@ namespace mm.Logic
             return null;
         }
 
-        public List<Person> NextGiverList()
+        public List<Person> WhoIsNextList()
         {
-            var givers = _persons.FindAll(x => x.Deleted == null);
+            var dates = from n in _participants
+                    where n.Participating == Participation.Buying || n.Participating == Participation.Override
+                    group n by n.PersonId into g
+                    select new { Id = g.Key, When = g.Max(t => t.When) };
 
-            Person oldest = new Person { LastGave = DateTime.MaxValue };
+            var who = from d in dates
+                      orderby d.When
+                      join p in _persons on d.Id equals p.Id
+                      where p.Deleted == null
+                      select p;
 
-            foreach (var p in _participants.FindAll(p => p.Participating == Participation.Buying))
-            {
-                var giver = givers.Find(g => g.Id == p.PersonId);
-                if (giver == null)
-                    continue;
-                giver.LastGave = p.When > giver.LastGave ? p.When : giver.LastGave;
-
-                if (giver.LastGave < oldest.LastGave)
-                    oldest = giver;
-            }
-
-            givers = givers.OrderBy(g => g.LastGave).ToList();
-
-            var seedDate = oldest?.LastGave ?? DateTime.Now.Date;
-
-            foreach (var p in givers.Where(x => x.LastGave == null))
-            {
-                p.LastGave = seedDate;
-                seedDate = seedDate.AddSeconds(1);
-            }
-
-            return givers.ToList();
+            return who.ToList();
         }
 
         public BreakfastsView CreateEventList(int teamId, DateTime fromDate)
@@ -113,7 +99,7 @@ namespace mm.Logic
                                        select p).OrderBy(p => p.UserId).ToList();
 
                 be.Buying = (from b in _participants
-                             where b.When.Date == nextDate.Date &&( b.Participating == Participation.Buying || b.Participating == Participation.Override)
+                             where b.When.Date == nextDate.Date && (b.Participating == Participation.Buying || b.Participating == Participation.Override)
                              join p in _persons on b.PersonId equals p.Id
                              select p).FirstOrDefault();
 
@@ -125,7 +111,7 @@ namespace mm.Logic
                 if (be.Buying != null)
                 {
                     be.Participating = _persons.Where(p => p.WasActive(be.When) && p.Id != be.Buying.Id && !be.NotParticipating.Any(np => np.Id == p.Id)).OrderBy(p => p.UserId).ToList();
-                    be.Buying.LastGave = be.When;
+                    //be.Buying.LastGave = be.When;
 
                     var idx = _participants.FindIndex(p => p.Participating == Participation.Buying && p.When == be.When);
                     if (idx >= 0)
@@ -153,10 +139,12 @@ namespace mm.Logic
             {
                 case Participation.Override:
                     _ds.RemoveSpecificParticipation(p.When, _teamId, Participation.Buying);
-                    _ds.AddParticipant(p.When, _teamId, p.PersonId, Participation.Buying);
+                    _ds.RemoveSpecificParticipation(p.When, _teamId, Participation.Override);
+                    _ds.AddParticipant(p.When, _teamId, p.PersonId, Participation.Override);
                     break;
                 case Participation.Buying:     // was buying
                 case Participation.Participating:     // was participating
+                    _ds.RemoveSpecificParticipation(p.When, _teamId, Participation.Override);
                     _ds.AddParticipant(p.When, _teamId, p.PersonId, Participation.NotParticipating);
                     break;
                 case Participation.NotParticipating:     // was not participating

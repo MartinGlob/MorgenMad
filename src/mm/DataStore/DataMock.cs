@@ -22,35 +22,36 @@ namespace mm.DataStore
 
         public void AddData()
         {
-            var idCAJRG = AddPerson(new Person { TeamId = 2, UserId = "CAJRG", LastGave = new DateTime(2016, 10, 14), Deleted = new DateTime(2016, 10, 14) });
-            var idJEHE = AddPerson(new Person { TeamId = 2, UserId = "JEHE", LastGave = new DateTime(2016, 11, 25) });
-            var idRCHI = AddPerson(new Person { TeamId = 2, UserId = "RCHI", LastGave = new DateTime(2016, 12, 09) });
-            var idKEPET = AddPerson(new Person { TeamId = 2, UserId = "KEPET", LastGave = new DateTime(2016, 12, 23) });
-            var idTBER = AddPerson(new Person { TeamId = 2, UserId = "TBER", LastGave = new DateTime(2017, 01, 06), Deleted = new DateTime(2017, 01, 30) });
-            var idIO = AddPerson(new Person { TeamId = 2, UserId = "IO", LastGave = new DateTime(2017, 01, 13) });
-            var idYLI = AddPerson(new Person { TeamId = 2, UserId = "YLI", LastGave = new DateTime(2017, 01, 20) });
-            var idLEDY = AddPerson(new Person { TeamId = 2, UserId = "LEDY", LastGave = new DateTime(2017, 01, 27) });
-            var idALLLA = AddPerson(new Person { TeamId = 2, UserId = "ALLLA", LastGave = new DateTime(2017, 02, 03) });
-            var idMGL = AddPerson(new Person { TeamId = 2, UserId = "MGL", LastGave = new DateTime(2017, 02, 10) });
-            var idVAAL = AddPerson(new Person { TeamId = 2, UserId = "VAAL", LastGave = new DateTime(2017, 02, 17) });
+            var idCAJRG = AddPerson(new Person { TeamId = 2, UserId = "CAJRG", Deleted = new DateTime(2016, 10, 14) });
+            var idJEHE = AddPerson(new Person { TeamId = 2, UserId = "JEHE", });
+            var idRCHI = AddPerson(new Person { TeamId = 2, UserId = "RCHI", });
+            var idKEPET = AddPerson(new Person { TeamId = 2, UserId = "KEPET", });
+            var idTBER = AddPerson(new Person { TeamId = 2, UserId = "TBER", Deleted = new DateTime(2017, 01, 30) });
+            var idIO = AddPerson(new Person { TeamId = 2, UserId = "IO", });
+            var idYLI = AddPerson(new Person { TeamId = 2, UserId = "YLI", });
+            var idLEDY = AddPerson(new Person { TeamId = 2, UserId = "LEDY", });
+            var idALLLA = AddPerson(new Person { TeamId = 2, UserId = "ALLLA", });
+            var idMGL = AddPerson(new Person { TeamId = 2, UserId = "MGL", });
+            var idVAAL = AddPerson(new Person { TeamId = 2, UserId = "VAAL", });
 
-            AddParticipant(new DateTime(2016, 10, 14), 2,idCAJRG, Participation.Buying);
-            AddParticipant(new DateTime(2016, 11, 25), 2,idJEHE, Participation.Buying);
-            AddParticipant(new DateTime(2016, 12, 09), 2,idRCHI, Participation.Buying);
+            AddParticipant(new DateTime(2016, 10, 14), 2, idCAJRG, Participation.Buying);
+            AddParticipant(new DateTime(2016, 11, 25), 2, idJEHE, Participation.Buying);
+            AddParticipant(new DateTime(2016, 12, 09), 2, idRCHI, Participation.Buying);
             AddParticipant(new DateTime(2016, 12, 16), 2, idVAAL, Participation.Buying);
-            AddParticipant(new DateTime(2016, 12, 23), 2,idKEPET, Participation.Buying);
-            AddParticipant(new DateTime(2017, 01, 06), 2,idTBER, Participation.Buying);
-            AddParticipant(new DateTime(2017, 01, 13), 2,idIO, Participation.Buying);
-            AddParticipant(new DateTime(2017, 01, 20), 2,idYLI, Participation.Buying);
-            AddParticipant(new DateTime(2017, 01, 27), 2,idLEDY, Participation.Buying);
-            AddParticipant(new DateTime(2017, 02, 03), 2,idALLLA, Participation.Buying);
+            AddParticipant(new DateTime(2016, 12, 23), 2, idKEPET, Participation.Buying);
+            AddParticipant(new DateTime(2017, 01, 06), 2, idTBER, Participation.Buying);
+            AddParticipant(new DateTime(2017, 01, 13), 2, idIO, Participation.Buying);
+            AddParticipant(new DateTime(2017, 01, 20), 2, idYLI, Participation.Buying);
+            AddParticipant(new DateTime(2017, 01, 27), 2, idLEDY, Participation.Buying);
+            AddParticipant(new DateTime(2017, 02, 03), 2, idALLLA, Participation.Buying);
 
-            AddParticipant(new DateTime(2017, 02, 10), 2,idMGL, Participation.Buying);
+            AddParticipant(new DateTime(2017, 02, 10), 2, idMGL, Participation.Buying);
             AddParticipant(new DateTime(2017, 02, 10), 2, idJEHE, Participation.NotParticipating);
             AddParticipant(new DateTime(2017, 02, 10), 2, idRCHI, Participation.NotParticipating);
 
             AddParticipant(new DateTime(2017, 02, 17), 2, idVAAL, Participation.Buying);
             AddParticipant(new DateTime(2017, 02, 24), 2, idRCHI, Participation.Buying);
+            AddParticipant(new DateTime(2017, 03, 03), 2, idMGL, Participation.Override);
 
             AddParticipant(new DateTime(2017, 03, 17), 2, idMGL, Participation.NotParticipating);
 

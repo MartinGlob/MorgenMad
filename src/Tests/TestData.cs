@@ -30,17 +30,17 @@ namespace Tests
 
         public static void Add34AP(IDataStore ds)
         {
-            ds.AddPerson(new Person { TeamId = 1, UserId = "CAJRG", LastGave = new DateTime(2016, 10, 14), Deleted = new DateTime(2016, 10, 14) });
-            ds.AddPerson(new Person { TeamId = 1, UserId = "JEHE", LastGave = new DateTime(2016, 11, 25) });
-            ds.AddPerson(new Person { TeamId = 1, UserId = "RCHI", LastGave = new DateTime(2016, 12, 09) });
-            ds.AddPerson(new Person { TeamId = 1, UserId = "VAAL", LastGave = new DateTime(2016, 12, 16) });
-            ds.AddPerson(new Person { TeamId = 1, UserId = "KEPET", LastGave = new DateTime(2016, 12, 23) });
-            ds.AddPerson(new Person { TeamId = 1, UserId = "TBER", LastGave = new DateTime(2017, 01, 06), Deleted = new DateTime(2017, 01, 30) });
-            ds.AddPerson(new Person { TeamId = 1, UserId = "IO", LastGave = new DateTime(2017, 01, 13) });
-            ds.AddPerson(new Person { TeamId = 1, UserId = "YLI", LastGave = new DateTime(2017, 01, 20) });
-            ds.AddPerson(new Person { TeamId = 1, UserId = "LEDY", LastGave = new DateTime(2017, 01, 27) });
-            ds.AddPerson(new Person { TeamId = 1, UserId = "ALLLA", LastGave = new DateTime(2017, 02, 03) });
-            ds.AddPerson(new Person { TeamId = 1, UserId = "MGL", LastGave = new DateTime(2017, 02, 10) });
+            ds.AddPerson(new Person { TeamId = 1, UserId = "CAJRG", Deleted = new DateTime(2016, 10, 14) });
+            ds.AddPerson(new Person { TeamId = 1, UserId = "JEHE", });
+            ds.AddPerson(new Person { TeamId = 1, UserId = "RCHI", });
+            ds.AddPerson(new Person { TeamId = 1, UserId = "VAAL", });
+            ds.AddPerson(new Person { TeamId = 1, UserId = "KEPET" });
+            ds.AddPerson(new Person { TeamId = 1, UserId = "TBER", Deleted = new DateTime(2017, 01, 30) });
+            ds.AddPerson(new Person { TeamId = 1, UserId = "IO",   });
+            ds.AddPerson(new Person { TeamId = 1, UserId = "YLI",  });
+            ds.AddPerson(new Person { TeamId = 1, UserId = "LEDY", });
+            ds.AddPerson(new Person { TeamId = 1, UserId = "ALLLA" });
+            ds.AddPerson(new Person { TeamId = 1, UserId = "MGL",  });
         }
 
     }
