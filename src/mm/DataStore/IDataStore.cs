@@ -12,14 +12,14 @@ namespace mm.DataStore
         List<Team> GetTeams();
 
         int AddPerson(Person person);
-        List<Person> GetPersons(int teamId);
-        void DeletePerson(int id);
-        List<Event> GetEvents(int teamId, DateTime fromDate);
+        List<Person> GetPersons(string teamId);
+        void DeletePerson(Guid id);
+        List<Event> GetEvents(string teamId, DateTime fromDate);
 
-        List<Participant> GetParticipants(int teamId);
-        void AddParticipant(DateTime when, int teamId, int personId, Participation participation);
-        void RemoveParticipation(DateTime when, int personId);
-        void RemoveSpecificParticipation(DateTime when, int teamId, Participation status);
+        List<Participant> GetParticipants(Guid teamId);
+        void AddParticipant(DateTime when, Guid teamId, Guid personId, Participation participation);
+        void RemoveParticipation(DateTime when, Guid personId);
+        void RemoveSpecificParticipation(DateTime when, Guid teamId, Participation status);
 
     }
 }

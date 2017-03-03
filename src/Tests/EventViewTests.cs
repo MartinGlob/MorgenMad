@@ -13,20 +13,17 @@ namespace Tests
     {
         const int TeamId = 2;
 
-        IDataStore _ds;
+        MongoStore _ds;
 
         public EventViewTests()
         {
-            _ds = new DataMock();
+            _ds = new MongoStore();
         }
 
         [Fact]
         public void Test1()
         {
-            var b = new BreakfastLogic(_ds, TeamId);
-
-            var view = b.CreateEventList(TeamId,DateTime.MinValue);
-
+           
         }
     }
 }

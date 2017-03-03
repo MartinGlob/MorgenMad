@@ -21,7 +21,7 @@ namespace mm.Controllers
 
         public IActionResult Index(string submit)
         {
-            var b = new BreakfastLogic(_ds,2);
+            var b = new BreakfastLogic(_ds,"2");
 
             if (submit != null)
             {
@@ -35,7 +35,7 @@ namespace mm.Controllers
 
         public IActionResult ChangeStatus(string id)
         {
-            var b = new BreakfastLogic(_ds, 2);
+            var b = new BreakfastLogic(_ds, "2");
 
             if (id != null)
             {

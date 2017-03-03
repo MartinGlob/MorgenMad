@@ -3,56 +3,51 @@ using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Threading.Tasks;
+using MongoDB.Bson;
+using MongoDB.Bson.Serialization.Attributes;
 
 namespace mm.Models
 {
+    public class Team
+    {
+        [BsonId]
+        public Guid Id { get; set; }
+        public string Name { get; set; }
+        public DayOfWeek EventDay { get; set; }
+        public List<Person> Persons { get; set; }
+
+        public Team()
+        {
+            Persons = new List<Person>();
+        }
+    }
+
     public class Person
     {
-        public int Id { get; set; }
-        public int TeamId { get; set; }
+        [BsonId]
+        public Guid Id { get; set; }
+        public string Name { get; set; }
         public DateTime Created { get; set; }
         public DateTime? Deleted { get; set; }
-        public string UserId { get; set; }
         public string EMail { get; set; }
 
         public Person()
         {
-            Created = DateTime.MinValue;
         }
 
-        public Person(Person p)
+        public bool WasActive(DateTime when)
         {
-            Id = p.Id;
-            TeamId = p.TeamId;
-            Created = p.Created;
-            Deleted = p.Deleted;
-            UserId = p.UserId;
-            EMail = p.EMail;
-        }
-
-        internal bool WasActive(DateTime when)
-        {
-            if (Created > when)
-                return false;
-            if (Deleted.HasValue && Deleted.Value <= when)
-                return false;
             return true;
         }
     }
 
-    public class Team
-    {
-        public int Id { get; set; }
-        public string Name { get; set; }
-        public DayOfWeek EventDay { get; set; }
-    }
-
+   
     public enum EventStatus { Normal = 0, Skipped = 9, SeedEvent = 2 }
 
     public class Event
     {
-        public int Id { get; set; }
-        public int TeamId { get; set; }
+        public Guid Id { get; set; }
+        public string TeamId { get; set; }
         public DateTime When { get; set; }
         public EventStatus Status { get; set; }
     }
@@ -74,9 +69,9 @@ namespace mm.Models
             Participating = p.Participating;
         }
 
-        public int TeamId { get; set; }
+        public Guid TeamId { get; set; }
         public DateTime When { get; set; }
-        public int PersonId { get; set; }
+        public Guid PersonId { get; set; }
         public Participation Participating { get; set; }
     }
 
@@ -101,7 +96,7 @@ namespace mm.Models
 
             var a = id.Split(':');
             r.When = DateTime.ParseExact(a[0], "yyyyMMdd", null);
-            r.PersonId = int.Parse(a[1]);
+            //r.PersonId = a[1];
             r.Participating =(Participation) Enum.Parse(typeof(Participation), a[2]);
 
             return r;

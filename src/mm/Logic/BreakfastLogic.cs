@@ -11,12 +11,12 @@ namespace mm.Logic
     public class BreakfastLogic
     {
         IDataStore _ds;
-        int _teamId;
+        string _teamId;
 
         List<Person> _persons;
         List<Participant> _participants;
 
-        public BreakfastLogic(IDataStore db, int teamId)
+        public BreakfastLogic(IDataStore db, string teamId)
         {
             _ds = db;
             _teamId = teamId;
@@ -55,13 +55,16 @@ namespace mm.Logic
 
         public BreakfastsView CreateEventList(int teamId, DateTime fromDate)
         {
-            _persons = _ds.GetPersons(_teamId);
-            _participants = _ds.GetParticipants(_teamId);
+            //todo fix id's
+            _persons = new List<Person>(); // _ds.GetPersons("");
+            _participants = new List<Participant>(); // _ds.GetParticipants("");
 
             var view = new BreakfastsView();
 
             DateTime nextDate = DateTime.Now;
-            while (nextDate.DayOfWeek != DayOfWeek.Friday) { nextDate = nextDate.AddDays(1); } //todo using team settings instead of fixed day
+
+            //todo this is the place to fix so any day can be breakfast day ;-)
+            while (nextDate.DayOfWeek != DayOfWeek.Friday) { nextDate = nextDate.AddDays(1); } 
 
             var oldEventDates = (from p in _participants where p.When >= fromDate && p.When < nextDate select p.When).Distinct().ToList();
 
@@ -69,7 +72,7 @@ namespace mm.Logic
             {
                 var be = new Breakfast { When = breakfastDate };
 
-                var participantGiving = _participants.FirstOrDefault(p => p.When == breakfastDate && p.Participating == Participation.Buying);
+                var participantGiving = _participants.FirstOrDefault(p => p.When == breakfastDate && (p.Participating == Participation.Buying || p.Participating == Participation.Override));
 
                 if (participantGiving == null)
                 {
@@ -82,9 +85,9 @@ namespace mm.Logic
                 be.NotParticipating = (from np in _participants
                                        where np.When == breakfastDate && np.Participating == Participation.NotParticipating
                                        join p in _persons on np.PersonId equals p.Id
-                                       select p).OrderBy(p => p.UserId).ToList();
+                                       select p).OrderBy(p => p.Id).ToList();
 
-                be.Participating = _persons.Where(p => p.WasActive(be.When) && p.Id != be.Buying.Id && !be.NotParticipating.Any(np => np.Id == p.Id)).OrderBy(p => p.UserId).ToList();
+                be.Participating = _persons.Where(p => p.WasActive(be.When) && p.Id != be.Buying.Id && !be.NotParticipating.Any(np => np.Id == p.Id)).OrderBy(p => p.Name).ToList();
 
                 view.Breakfasts.Add(be);
             }
@@ -96,7 +99,7 @@ namespace mm.Logic
                 be.NotParticipating = (from np in _participants
                                        where np.When.Date == nextDate.Date && np.Participating == Participation.NotParticipating
                                        join p in _persons on np.PersonId equals p.Id
-                                       select p).OrderBy(p => p.UserId).ToList();
+                                       select p).OrderBy(p => p.Id).ToList();
 
                 be.Buying = (from b in _participants
                              where b.When.Date == nextDate.Date && (b.Participating == Participation.Buying || b.Participating == Participation.Override)
@@ -110,14 +113,14 @@ namespace mm.Logic
 
                 if (be.Buying != null)
                 {
-                    be.Participating = _persons.Where(p => p.WasActive(be.When) && p.Id != be.Buying.Id && !be.NotParticipating.Any(np => np.Id == p.Id)).OrderBy(p => p.UserId).ToList();
+                    be.Participating = _persons.Where(p => p.WasActive(be.When) && p.Id != be.Buying.Id && !be.NotParticipating.Any(np => np.Id == p.Id)).OrderBy(p => p.Name).ToList();
                     //be.Buying.LastGave = be.When;
 
                     var idx = _participants.FindIndex(p => p.Participating == Participation.Buying && p.When == be.When);
                     if (idx >= 0)
                         _participants.RemoveAt(idx);
 
-                    _participants.Add(new Participant { Participating = Participation.Buying, PersonId = be.Buying.Id, TeamId = _teamId, When = be.When });
+                 //   _participants.Add(new Participant { Participating = Participation.Buying, PersonId = be.Buying.Id, TeamId = _teamId, When = be.When });
                 }
                 else
                 {
@@ -134,22 +137,22 @@ namespace mm.Logic
 
         internal void ChangeParticipation(Participant p)
         {
-            _ds.RemoveParticipation(p.When, p.PersonId);
-            switch (p.Participating)
-            {
-                case Participation.Override:
-                    _ds.RemoveSpecificParticipation(p.When, _teamId, Participation.Buying);
-                    _ds.RemoveSpecificParticipation(p.When, _teamId, Participation.Override);
-                    _ds.AddParticipant(p.When, _teamId, p.PersonId, Participation.Override);
-                    break;
-                case Participation.Buying:     // was buying
-                case Participation.Participating:     // was participating
-                    _ds.RemoveSpecificParticipation(p.When, _teamId, Participation.Override);
-                    _ds.AddParticipant(p.When, _teamId, p.PersonId, Participation.NotParticipating);
-                    break;
-                case Participation.NotParticipating:     // was not participating
-                    break;
-            }
+            //_ds.RemoveParticipation(p.When, p.PersonId);
+            //switch (p.Participating)
+            //{
+            //    case Participation.Override:
+            //        _ds.RemoveSpecificParticipation(p.When, _teamId, Participation.Buying);
+            //        _ds.RemoveSpecificParticipation(p.When, _teamId, Participation.Override);
+            //        _ds.AddParticipant(p.When, _teamId, p.PersonId, Participation.Override);
+            //        break;
+            //    case Participation.Buying:     // was buying
+            //    case Participation.Participating:     // was participating
+            //        _ds.RemoveSpecificParticipation(p.When, _teamId, Participation.Override);
+            //        _ds.AddParticipant(p.When, _teamId, p.PersonId, Participation.NotParticipating);
+            //        break;
+            //    case Participation.NotParticipating:     // was not participating
+            //        break;
+            //}
         }
 
 
