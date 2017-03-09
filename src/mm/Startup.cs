@@ -30,7 +30,7 @@ namespace mm
         {
             // Add framework services.
             services.AddMvc();
-           // services.AddSingleton<IDataStore, MongoStore>();
+            services.AddSingleton<IMongoStore, MongoStore>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

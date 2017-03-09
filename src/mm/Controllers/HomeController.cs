@@ -11,9 +11,9 @@ namespace mm.Controllers
 {
     public class HomeController : Controller
     {
-        IDataStore _ds;
+        IMongoStore _ds;
 
-        public HomeController(IDataStore dataStore)
+        public HomeController(IMongoStore dataStore)
         {
             _ds = dataStore;
             
@@ -21,30 +21,33 @@ namespace mm.Controllers
 
         public IActionResult Index(string submit)
         {
-            var b = new BreakfastLogic(_ds,"2");
+            var b = new BreakfastLogic(_ds);
+            b.LoadPersons();
+            b.LoadParticipants();
+            //if (submit != null)
+            //{
+            //    var p = Breakfast.DecodeChangeId(submit);
 
-            if (submit != null)
-            {
-                var p = Breakfast.DecodeChangeId(submit);
+            //    b.ChangeParticipation(p);
+            //}
 
-                b.ChangeParticipation(p);
-            }
-
-            return View(b.CreateEventList(2, DateTime.Now.AddDays(-21)));
+            return View(b.CreateEventList(DateTime.Now.AddDays(-21)).Result);
         }
 
         public IActionResult ChangeStatus(string id)
         {
-            var b = new BreakfastLogic(_ds, "2");
+            var b = new BreakfastLogic(_ds);
+            b.LoadPersons();
 
             if (id != null)
             {
                 var p = Breakfast.DecodeChangeId(id);
-
                 b.ChangeParticipation(p);
             }
 
-            return View("Index",b.CreateEventList(2, DateTime.Now.AddDays(-21)));
+            b.LoadParticipants();
+
+            return View("Index",b.CreateEventList(DateTime.Now.AddDays(-21)).Result);
         }
 
 

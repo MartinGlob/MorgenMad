@@ -5,21 +5,33 @@ using System.Threading.Tasks;
 using mm.Models;
 using mm.DataStore;
 using System.Collections;
+using MongoDB.Bson;
 
 namespace mm.Logic
 {
     public class BreakfastLogic
     {
-        IDataStore _ds;
-        string _teamId;
+        IMongoStore _ds;
+        ObjectId _teamId;
 
         List<Person> _persons;
         List<Participant> _participants;
 
-        public BreakfastLogic(IDataStore db, string teamId)
+        public BreakfastLogic(IMongoStore db)
         {
             _ds = db;
-            _teamId = teamId;
+            var t = _ds.GetTeam("34AP").Result;
+            _teamId = t.Id;
+        }
+
+        public async void LoadPersons()
+        {
+            _persons = await _ds.GetPersons(_teamId);
+        }
+
+        public async void LoadParticipants()
+        {
+            _participants = await _ds.GetParticipants(_teamId);
         }
 
         public Person NextGiver(List<Person> notParticipating)
@@ -53,11 +65,8 @@ namespace mm.Logic
             return who.ToList();
         }
 
-        public BreakfastsView CreateEventList(int teamId, DateTime fromDate)
+        public async Task<BreakfastsView> CreateEventList(DateTime fromDate)
         {
-            //todo fix id's
-            _persons = new List<Person>(); // _ds.GetPersons("");
-            _participants = new List<Participant>(); // _ds.GetParticipants("");
 
             var view = new BreakfastsView();
 
@@ -114,13 +123,12 @@ namespace mm.Logic
                 if (be.Buying != null)
                 {
                     be.Participating = _persons.Where(p => p.WasActive(be.When) && p.Id != be.Buying.Id && !be.NotParticipating.Any(np => np.Id == p.Id)).OrderBy(p => p.Name).ToList();
-                    //be.Buying.LastGave = be.When;
 
                     var idx = _participants.FindIndex(p => p.Participating == Participation.Buying && p.When == be.When);
                     if (idx >= 0)
                         _participants.RemoveAt(idx);
 
-                 //   _participants.Add(new Participant { Participating = Participation.Buying, PersonId = be.Buying.Id, TeamId = _teamId, When = be.When });
+                    _participants.Add(new Participant { Participating = Participation.Buying, PersonId = be.Buying.Id, TeamId = _teamId, When = be.When });
                 }
                 else
                 {
@@ -137,22 +145,8 @@ namespace mm.Logic
 
         internal void ChangeParticipation(Participant p)
         {
-            //_ds.RemoveParticipation(p.When, p.PersonId);
-            //switch (p.Participating)
-            //{
-            //    case Participation.Override:
-            //        _ds.RemoveSpecificParticipation(p.When, _teamId, Participation.Buying);
-            //        _ds.RemoveSpecificParticipation(p.When, _teamId, Participation.Override);
-            //        _ds.AddParticipant(p.When, _teamId, p.PersonId, Participation.Override);
-            //        break;
-            //    case Participation.Buying:     // was buying
-            //    case Participation.Participating:     // was participating
-            //        _ds.RemoveSpecificParticipation(p.When, _teamId, Participation.Override);
-            //        _ds.AddParticipant(p.When, _teamId, p.PersonId, Participation.NotParticipating);
-            //        break;
-            //    case Participation.NotParticipating:     // was not participating
-            //        break;
-            //}
+            p.TeamId = _persons.Find(x => x.Id == p.PersonId).TeamId;
+            _ds.RemoveAndInsert(p);
         }
 
 
