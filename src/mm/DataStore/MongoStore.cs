@@ -121,6 +121,11 @@ namespace mm.DataStore
             return;
         }
 
+        public async Task SetParticipant(Participant p)
+        {
+            await _participants.InsertOneAsync(p);
+        }
+
         public async Task<List<Participant>> GetParticipants(ObjectId teamId)
         {
             return await _participants.Find(p => p.TeamId == teamId).ToListAsync();

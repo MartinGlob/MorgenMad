@@ -28,7 +28,7 @@
                 var disabled = breakfast.When < DateTime.Now ? " disabled " : "";
 
                 <tr>
-                    <td><b>@breakfast.When.ToString("dd-MMM")</b></td>
+                    <td><b>@breakfast.When.ToLocalTime().ToString("dd-MMM")</b></td>
                     <td>
                         @if (breakfast.Buying != null)
                         {

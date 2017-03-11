@@ -56,23 +56,24 @@ namespace Tests
             var idMGL = await m.UpdatePerson(new Person { Created = new DateTime(2016, 08, 01), TeamId = teamId, Name = "MGL" });
             var idVAAL = await m.UpdatePerson(new Person { Created = new DateTime(2016, 08, 01), TeamId = teamId, Name = "VAAL" });
 
-            await m.RemoveAndInsert(new Participant(new DateTime(2016, 10, 14), teamId, idCAJRG, Participation.Buying));
-            await m.RemoveAndInsert(new Participant(new DateTime(2016, 11, 25), teamId, idJEHE, Participation.Buying));
-            await m.RemoveAndInsert(new Participant(new DateTime(2016, 12, 09), teamId, idRCHI, Participation.Buying));
-            await m.RemoveAndInsert(new Participant(new DateTime(2016, 12, 16), teamId, idVAAL, Participation.Buying));
-            await m.RemoveAndInsert(new Participant(new DateTime(2016, 12, 23), teamId, idKEPET, Participation.Buying));
-            await m.RemoveAndInsert(new Participant(new DateTime(2017, 01, 06), teamId, idTBER, Participation.Buying));
-            await m.RemoveAndInsert(new Participant(new DateTime(2017, 01, 13), teamId, idIO, Participation.Buying));
-            await m.RemoveAndInsert(new Participant(new DateTime(2017, 01, 20), teamId, idYLI, Participation.Buying));
-            await m.RemoveAndInsert(new Participant(new DateTime(2017, 01, 27), teamId, idLEDY, Participation.Buying));
-            await m.RemoveAndInsert(new Participant(new DateTime(2017, 02, 03), teamId, idALLLA, Participation.Buying));
-            await m.RemoveAndInsert(new Participant(new DateTime(2017, 02, 10), teamId, idMGL, Participation.Buying));
-            await m.RemoveAndInsert(new Participant(new DateTime(2017, 02, 10), teamId, idJEHE, Participation.NotParticipating));
-            await m.RemoveAndInsert(new Participant(new DateTime(2017, 02, 10), teamId, idRCHI, Participation.NotParticipating));
-            await m.RemoveAndInsert(new Participant(new DateTime(2017, 02, 17), teamId, idVAAL, Participation.Buying));
-            await m.RemoveAndInsert(new Participant(new DateTime(2017, 02, 24), teamId, idRCHI, Participation.Buying));
-            await m.RemoveAndInsert(new Participant(new DateTime(2017, 03, 04), teamId, idJEHE, Participation.Buying));
-            await m.RemoveAndInsert(new Participant(new DateTime(2017, 03, 17), teamId, idMGL, Participation.NotParticipating));
+            await m.SetParticipant(new Participant(new DateTime(2016, 10, 14), teamId, idCAJRG, Participation.Buying));
+            await m.SetParticipant(new Participant(new DateTime(2016, 11, 25), teamId, idJEHE, Participation.Buying));
+            await m.SetParticipant(new Participant(new DateTime(2016, 12, 09), teamId, idRCHI, Participation.Buying));
+            await m.SetParticipant(new Participant(new DateTime(2016, 12, 16), teamId, idVAAL, Participation.Buying));
+            await m.SetParticipant(new Participant(new DateTime(2016, 12, 23), teamId, idKEPET, Participation.Buying));
+            await m.SetParticipant(new Participant(new DateTime(2017, 01, 06), teamId, idTBER, Participation.Buying));
+            await m.SetParticipant(new Participant(new DateTime(2017, 01, 13), teamId, idIO, Participation.Buying));
+            await m.SetParticipant(new Participant(new DateTime(2017, 01, 20), teamId, idYLI, Participation.Buying));
+            await m.SetParticipant(new Participant(new DateTime(2017, 01, 27), teamId, idLEDY, Participation.Buying));
+            await m.SetParticipant(new Participant(new DateTime(2017, 02, 03), teamId, idALLLA, Participation.Buying));
+            await m.SetParticipant(new Participant(new DateTime(2017, 02, 10), teamId, idMGL, Participation.Buying));
+            await m.SetParticipant(new Participant(new DateTime(2017, 02, 10), teamId, idJEHE, Participation.NotParticipating));
+            await m.SetParticipant(new Participant(new DateTime(2017, 02, 10), teamId, idRCHI, Participation.NotParticipating));
+            await m.SetParticipant(new Participant(new DateTime(2017, 02, 17), teamId, idVAAL, Participation.Buying));
+            await m.SetParticipant(new Participant(new DateTime(2017, 02, 24), teamId, idRCHI, Participation.Buying));
+            await m.SetParticipant(new Participant(new DateTime(2017, 03, 03), teamId, idJEHE, Participation.Buying));
+            await m.SetParticipant(new Participant(new DateTime(2017, 03, 10), teamId, idKEPET, Participation.Buying));
+            await m.SetParticipant(new Participant(new DateTime(2017, 03, 17), teamId, idMGL, Participation.NotParticipating));
 
 
 

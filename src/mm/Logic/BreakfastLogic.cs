@@ -52,9 +52,9 @@ namespace mm.Logic
         public List<Person> WhoIsNextList()
         {
             var dates = from n in _participants
-                    where n.Participating == Participation.Buying || n.Participating == Participation.Override
-                    group n by n.PersonId into g
-                    select new { Id = g.Key, When = g.Max(t => t.When) };
+                        where n.Participating == Participation.Buying || n.Participating == Participation.Override
+                        group n by n.PersonId into g
+                        select new { Id = g.Key, When = g.Max(t => t.When) };
 
             var who = from d in dates
                       orderby d.When
@@ -73,7 +73,7 @@ namespace mm.Logic
             DateTime nextDate = DateTime.Now;
 
             //todo this is the place to fix so any day can be breakfast day ;-)
-            while (nextDate.DayOfWeek != DayOfWeek.Friday) { nextDate = nextDate.AddDays(1); } 
+            while (nextDate.DayOfWeek != DayOfWeek.Friday) { nextDate = nextDate.AddDays(1); }
 
             var oldEventDates = (from p in _participants where p.When >= fromDate && p.When < nextDate select p.When).Distinct().ToList();
 
@@ -81,7 +81,7 @@ namespace mm.Logic
             {
                 var be = new Breakfast { When = breakfastDate };
 
-                var participantGiving = _participants.FirstOrDefault(p => p.When == breakfastDate && (p.Participating == Participation.Buying || p.Participating == Participation.Override));
+                var participantGiving = _participants.FirstOrDefault(p => (p.Participating == Participation.Buying || p.Participating == Participation.Override) && IsSameDate(p.When, breakfastDate));
 
                 if (participantGiving == null)
                 {
@@ -92,7 +92,7 @@ namespace mm.Logic
                 be.Buying = _persons.FirstOrDefault(p => p.Id == participantGiving.PersonId);
 
                 be.NotParticipating = (from np in _participants
-                                       where np.When == breakfastDate && np.Participating == Participation.NotParticipating
+                                       where np.Participating == Participation.NotParticipating && IsSameDate(np.When, breakfastDate)
                                        join p in _persons on np.PersonId equals p.Id
                                        select p).OrderBy(p => p.Id).ToList();
 
@@ -106,12 +106,12 @@ namespace mm.Logic
                 var be = new Breakfast { When = nextDate };
 
                 be.NotParticipating = (from np in _participants
-                                       where np.When.Date == nextDate.Date && np.Participating == Participation.NotParticipating
+                                       where np.Participating == Participation.NotParticipating && IsSameDate(np.When, nextDate)
                                        join p in _persons on np.PersonId equals p.Id
                                        select p).OrderBy(p => p.Id).ToList();
 
                 be.Buying = (from b in _participants
-                             where b.When.Date == nextDate.Date && (b.Participating == Participation.Buying || b.Participating == Participation.Override)
+                             where (b.Participating == Participation.Buying || b.Participating == Participation.Override) && IsSameDate(b.When, nextDate)
                              join p in _persons on b.PersonId equals p.Id
                              select p).FirstOrDefault();
 
@@ -124,9 +124,7 @@ namespace mm.Logic
                 {
                     be.Participating = _persons.Where(p => p.WasActive(be.When) && p.Id != be.Buying.Id && !be.NotParticipating.Any(np => np.Id == p.Id)).OrderBy(p => p.Name).ToList();
 
-                    var idx = _participants.FindIndex(p => p.Participating == Participation.Buying && p.When == be.When);
-                    if (idx >= 0)
-                        _participants.RemoveAt(idx);
+                    _participants.RemoveAll(p => p.Participating == Participation.Buying && IsSameDate(p.When,be.When));
 
                     _participants.Add(new Participant { Participating = Participation.Buying, PersonId = be.Buying.Id, TeamId = _teamId, When = be.When });
                 }
@@ -141,6 +139,11 @@ namespace mm.Logic
             }
 
             return view;
+        }
+
+        private bool IsSameDate(DateTime a, DateTime b)
+        {
+            return a.ToUniversalTime().Date == b.ToUniversalTime().Date;
         }
 
         internal void ChangeParticipation(Participant p)
