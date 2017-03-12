@@ -24,14 +24,14 @@ namespace mm.Logic
             _teamId = t.Id;
         }
 
-        public async void LoadPersons()
+        public void LoadPersons()
         {
-            _persons = await _ds.GetPersons(_teamId);
+            _persons = _ds.GetPersons(_teamId).Result;
         }
 
-        public async void LoadParticipants()
+        public void LoadParticipants()
         {
-            _participants = await _ds.GetParticipants(_teamId);
+            _participants = _ds.GetParticipants(_teamId).Result;
         }
 
         public Person NextGiver(List<Person> notParticipating)
@@ -65,15 +65,18 @@ namespace mm.Logic
             return who.ToList();
         }
 
-        public async Task<BreakfastsView> CreateEventList(DateTime fromDate)
+        public BreakfastsView CreateEventList(DateTime fromDate)
         {
 
             var view = new BreakfastsView();
 
-            DateTime nextDate = DateTime.Now;
+            DateTime nextDate = DateTime.Today.ToUniversalTime();
 
             //todo this is the place to fix so any day can be breakfast day ;-)
-            while (nextDate.DayOfWeek != DayOfWeek.Friday) { nextDate = nextDate.AddDays(1); }
+            while (nextDate.ToLocalTime().DayOfWeek != DayOfWeek.Friday) { nextDate = nextDate.AddDays(1); }
+
+            if (_participants == null)
+                throw new Exception("PART IS NULL");
 
             var oldEventDates = (from p in _participants where p.When >= fromDate && p.When < nextDate select p.When).Distinct().ToList();
 
@@ -122,9 +125,9 @@ namespace mm.Logic
 
                 if (be.Buying != null)
                 {
-                    be.Participating = _persons.Where(p => p.WasActive(be.When) && p.Id != be.Buying.Id && !be.NotParticipating.Any(np => np.Id == p.Id)).OrderBy(p => p.Name).ToList();
+                    be.Participating = _persons.Where(p => p.WasActive(be.When) && p.Id != be.Buying.Id && be.NotParticipating.All(np => np.Id != p.Id)).OrderBy(p => p.Name).ToList();
 
-                    _participants.RemoveAll(p => p.Participating == Participation.Buying && IsSameDate(p.When,be.When));
+                    _participants.RemoveAll(p => p.Participating == Participation.Buying && IsSameDate(p.When, be.When));
 
                     _participants.Add(new Participant { Participating = Participation.Buying, PersonId = be.Buying.Id, TeamId = _teamId, When = be.When });
                 }

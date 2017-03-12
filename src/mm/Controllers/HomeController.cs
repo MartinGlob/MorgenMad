@@ -31,7 +31,7 @@ namespace mm.Controllers
             //    b.ChangeParticipation(p);
             //}
 
-            return View(b.CreateEventList(DateTime.Now.AddDays(-21)).Result);
+            return View(b.CreateEventList(DateTime.Now.AddDays(-21)));
         }
 
         public IActionResult ChangeStatus(string id)
@@ -47,7 +47,7 @@ namespace mm.Controllers
 
             b.LoadParticipants();
 
-            return View("Index",b.CreateEventList(DateTime.Now.AddDays(-21)).Result);
+            return View("Index",b.CreateEventList(DateTime.Now.AddDays(-21)));
         }
 
 

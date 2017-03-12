@@ -16,7 +16,7 @@ namespace mm.DataStore
 
         IMongoCollection<Team> _teams;
 
-   
+
         IMongoCollection<Participant> _participants;
         IMongoCollection<Person> _persons;
 
@@ -27,7 +27,7 @@ namespace mm.DataStore
 
             _teams = _db.GetCollection<Team>("Teams");
             _teams.Indexes.CreateOneAsync(Builders<Team>.IndexKeys.Ascending(_ => _.Name), new CreateIndexOptions { Unique = true });
-            
+
             _participants = _db.GetCollection<Participant>("Participants");
 
             _persons = _db.GetCollection<Person>("Persons");
@@ -95,13 +95,15 @@ namespace mm.DataStore
             return await _persons.Find(p => p.TeamId == teamId).ToListAsync();
         }
 
-        public async Task RemoveAndInsert(Participant participant)
+        private bool IsSameDate(DateTime a, DateTime b)
         {
-            // first, remove the participant from the list if present
-            if (participant.Participating != Participation.Participating)
-            {
-                await _participants.DeleteOneAsync(p => p.When == participant.When && p.PersonId == participant.PersonId);
-            }
+            return a.ToUniversalTime().Date == b.ToUniversalTime().Date;
+        }
+        public void RemoveAndInsert(Participant participant)
+        {
+
+            var r = _participants.DeleteMany(p => p.PersonId == participant.PersonId && p.When == participant.When);
+
 
             // add a new entry depending on what the participant WAS doing
             switch (participant.Participating)
@@ -117,7 +119,7 @@ namespace mm.DataStore
                     return;
             }
             participant.Id = ObjectId.GenerateNewId();
-            await _participants.InsertOneAsync(participant);
+            _participants.InsertOne(participant);
             return;
         }
 
