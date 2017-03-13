@@ -99,6 +99,8 @@ namespace mm.DataStore
         {
             return a.ToUniversalTime().Date == b.ToUniversalTime().Date;
         }
+
+        //todo fix up deletemany - should not be nessecary
         public void RemoveAndInsert(Participant participant)
         {
 
@@ -115,6 +117,8 @@ namespace mm.DataStore
                     participant.Participating = Participation.NotParticipating;
                     break;
                 case Participation.Override:
+                    var x = _participants.DeleteMany(p => p.Participating == Participation.Override && p.When == participant.When);
+                    break;
                 case Participation.NotParticipating:
                     return;
             }
