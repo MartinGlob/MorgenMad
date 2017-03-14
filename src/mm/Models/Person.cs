@@ -15,26 +15,35 @@ namespace mm.Models
         public DateTime Created { get; set; }
         public string Name { get; set; }
         public DayOfWeek EventDay { get; set; }
-        public List<Person> Persons { get; set; }
+        //public List<Person> Persons { get; set; }
 
         public Team()
         {
-            Persons = new List<Person>();
+            //Persons = new List<Person>();
         }
     }
 
     public class Person
     {
         [BsonId]
-        public ObjectId Id { get; set; }
+        public string Id { get; set; } // B number
         public ObjectId TeamId { get; set; }
-        public string Name { get; set; }
+        public string Name { get; set; } // Short name - first part of email
         public DateTime Created { get; set; }
         public DateTime? Deleted { get; set; }
         public string EMail { get; set; }
 
         public Person()
         {
+            Created = DateTime.UtcNow;
+        }
+
+        public Person(string id, string email, ObjectId teamId)
+        {
+            Id = id;
+            TeamId = teamId;
+            Name = email.Split('@')[0].ToUpper();
+            EMail = email.ToLower();
         }
 
         public bool WasActive(DateTime when)
@@ -47,6 +56,17 @@ namespace mm.Models
         }
     }
 
+    public class EditTeamPerson
+    {
+        public List<Team> Teams { get; set; }
+        public string TeamName { get; set; }
+        public DayOfWeek Day { get; set; }
+        public ObjectId TeamId { get; set; }
+
+        public string Id { get; set; }
+        public string Email { get; set; }
+        public string Name { get; set; }
+    }
    
     public enum EventStatus { Normal = 0, Skipped = 9, SeedEvent = 2 }
 
@@ -59,12 +79,12 @@ namespace mm.Models
         public ObjectId Id { get; set; }
         public ObjectId TeamId { get; set; }
         public DateTime When { get; set; }
-        public ObjectId PersonId { get; set; }
+        public string PersonId { get; set; }
         public Participation Participating { get; set; }
 
         public Participant() {}
 
-        public Participant(DateTime when, ObjectId teamId, ObjectId personId, Participation participating)
+        public Participant(DateTime when, ObjectId teamId, string personId, Participation participating)
         {
             When = when;
             TeamId = teamId;
@@ -94,7 +114,7 @@ namespace mm.Models
             var a = id.Split(':');
             r.When =  DateTime.ParseExact(a[0], "yyyyMMdd", null, System.Globalization.DateTimeStyles.AssumeLocal).ToUniversalTime();
             
-            r.PersonId = ObjectId.Parse(a[1]);
+            r.PersonId = a[1];
             r.Participating =(Participation) Enum.Parse(typeof(Participation), a[2]);
 
             return r;

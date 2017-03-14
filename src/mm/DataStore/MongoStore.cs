@@ -15,8 +15,6 @@ namespace mm.DataStore
         protected static IMongoDatabase _db;
 
         IMongoCollection<Team> _teams;
-
-
         IMongoCollection<Participant> _participants;
         IMongoCollection<Person> _persons;
 
@@ -56,6 +54,11 @@ namespace mm.DataStore
             return t.Id;
         }
 
+        public async Task<List<Team>> GetTeams()
+        {
+            return await _teams.Find(_ => true).ToListAsync();
+        }
+
         public async Task<Team> GetTeam(ObjectId id)
         {
             return await _teams.Find(t => t.Id == id).FirstOrDefaultAsync();
@@ -66,29 +69,21 @@ namespace mm.DataStore
             return await _teams.Find(x => x.Name.ToLower() == name.ToLower()).SingleOrDefaultAsync();
         }
 
-        public async Task<ObjectId> UpdatePerson(Person p)
+        public async Task<string> UpdatePerson(Person p)
         {
-            if (p.Id == ObjectId.Empty)
-            {
-                p.Created = p.Created == null ? DateTime.Now : p.Created;
-                await _persons.InsertOneAsync(p);
-            }
-            else
-            {
-                await _persons.ReplaceOneAsync(x => x.Id == p.Id, p);
-            }
+            await _persons.ReplaceOneAsync(x => x.Id == p.Id, p, new UpdateOptions { IsUpsert = true });
             return p.Id;
         }
 
-        public async Task<Person> GetPerson(ObjectId id)
+        public async Task<Person> GetPerson(string id)
         {
             return await _persons.Find(t => t.Id == id).FirstOrDefaultAsync();
         }
 
-        public async Task<Person> GetPerson(string name)
-        {
-            return await _persons.Find(x => x.Name.ToLower() == name.ToLower()).SingleOrDefaultAsync();
-        }
+        //public async Task<Person> GetPerson(string name)
+        //{
+        //    return await _persons.Find(x => x.Name.ToLower() == name.ToLower()).SingleOrDefaultAsync();
+        //}
 
         public async Task<List<Person>> GetPersons(ObjectId teamId)
         {

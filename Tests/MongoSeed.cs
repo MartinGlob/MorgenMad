@@ -15,19 +15,22 @@ namespace Tests
             var m = new MongoStore();
             m.ClearAll();
 
+            await m.UpdateTeam(new Team { Name = "C&I GLS", EventDay = DayOfWeek.Friday });
+            await m.UpdateTeam(new Team { Name = "C&I KWANT", EventDay = DayOfWeek.Friday });
+
             var teamId = await m.UpdateTeam(new Team { Name = "34AP", EventDay = DayOfWeek.Friday });
 
-            var idCAJRG = await m.UpdatePerson(new Person { Created = new DateTime(2016, 08, 01), TeamId = teamId, Name = "CAJRG", Deleted = new DateTime(2016, 10, 14) });
-            var idJEHE = await m.UpdatePerson(new Person { Created = new DateTime(2016, 08, 01), TeamId = teamId, Name = "JEHE" });
-            var idRCHI = await m.UpdatePerson(new Person { Created = new DateTime(2016, 08, 01), TeamId = teamId, Name = "RCHI" });
-            var idKEPET = await m.UpdatePerson(new Person { Created = new DateTime(2016, 08, 01), TeamId = teamId, Name = "KEPET" });
-            var idTBER = await m.UpdatePerson(new Person { Created = new DateTime(2016, 08, 01), TeamId = teamId, Name = "TBER", Deleted = new DateTime(2017, 01, 30) });
-            var idIO = await m.UpdatePerson(new Person { Created = new DateTime(2016, 08, 01), TeamId = teamId, Name = "IO" });
-            var idYLI = await m.UpdatePerson(new Person { Created = new DateTime(2016, 08, 01), TeamId = teamId, Name = "YLI" });
-            var idLEDY = await m.UpdatePerson(new Person { Created = new DateTime(2016, 08, 01), TeamId = teamId, Name = "LEDY" });
-            var idALLLA = await m.UpdatePerson(new Person { Created = new DateTime(2016, 08, 01), TeamId = teamId, Name = "ALLLA" });
-            var idMGL = await m.UpdatePerson(new Person { Created = new DateTime(2016, 08, 01), TeamId = teamId, Name = "MGL" });
-            var idVAAL = await m.UpdatePerson(new Person { Created = new DateTime(2016, 08, 01), TeamId = teamId, Name = "VAAL" });
+            var idCAJRG = await m.UpdatePerson(new Person("BB001", "cajrg@danskebank.dk", teamId) { Deleted = new DateTime(2016, 10, 14) });
+            var idJEHE = await m.UpdatePerson(new Person("BB002", "jehe@danskebank.dk", teamId));
+            var idRCHI = await m.UpdatePerson(new Person("BB003", "rchi@danskebank.dk", teamId));
+            var idKEPET = await m.UpdatePerson(new Person("BB004", "kepet@danskebank.dk", teamId));
+            var idTBER = await m.UpdatePerson(new Person("BB005", "tber@danskebank.dk", teamId) { Deleted = new DateTime(2017, 01, 30) });
+            var idIO = await m.UpdatePerson(new Person("BB006", "io@danskebank.dk", teamId));
+            var idYLI = await m.UpdatePerson(new Person("BB007", "yli@danskebank.dk", teamId));
+            var idLEDY = await m.UpdatePerson(new Person("BB008", "ledy@danskebank.dk", teamId));
+            var idALLLA = await m.UpdatePerson(new Person("BB009", "allla@danskebank.dk", teamId));
+            var idMGL = await m.UpdatePerson(new Person("BB010", "mgl@danskebank.dk", teamId));
+            var idVAAL = await m.UpdatePerson(new Person("BB011", "vaal@danskebank.dk", teamId));
 
             await m.SetParticipant(new Participant(new DateTime(2016, 10, 14), teamId, idCAJRG, Participation.Buying));
             await m.SetParticipant(new Participant(new DateTime(2016, 11, 25), teamId, idJEHE, Participation.Buying));

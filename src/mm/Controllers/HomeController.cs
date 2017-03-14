@@ -16,21 +16,17 @@ namespace mm.Controllers
         public HomeController(IMongoStore dataStore)
         {
             _ds = dataStore;
-            
+
+            //todo determine team based upon user
+            //var x = User.Identity.Name;
         }
 
         public IActionResult Index(string submit)
         {
             var b = new BreakfastLogic(_ds);
+            return View("NewUser");
             b.LoadPersons();
             b.LoadParticipants();
-            //if (submit != null)
-            //{
-            //    var p = Breakfast.DecodeChangeId(submit);
-
-            //    b.ChangeParticipation(p);
-            //}
-
             return View(b.CreateEventList(DateTime.Now.AddDays(-21)));
         }
 
@@ -47,23 +43,32 @@ namespace mm.Controllers
 
             b.LoadParticipants();
 
-            return View("Index",b.CreateEventList(DateTime.Now.AddDays(-21)));
+            return View("Index", b.CreateEventList(DateTime.Now.AddDays(-21)));
         }
 
-
-        public IActionResult About()
+        [HttpPost]
+        public async Task<IActionResult> NewUser(string id, string email, string teamId)
         {
-            ViewData["Message"] = "Your application description page.";
+            var model = new EditTeamPerson();
 
-            return View();
+            model.Teams = await _ds.GetTeams();
+
+            return View("NewUser", model);
         }
 
-        public IActionResult Contact()
-        {
-            ViewData["Message"] = "Your contact page.";
+        //public IActionResult About()
+        //{
+        //    ViewData["Message"] = "Your application description page.";
 
-            return View();
-        }
+        //    return View();
+        //}
+
+        //public IActionResult Contact()
+        //{
+        //    ViewData["Message"] = "Your contact page.";
+
+        //    return View();
+        //}
 
         public IActionResult Error()
         {

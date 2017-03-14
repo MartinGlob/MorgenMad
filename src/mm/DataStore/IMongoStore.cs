@@ -9,13 +9,13 @@ namespace mm.DataStore
     {
         void ClearAll();
         Task<List<Participant>> GetParticipants(ObjectId teamId);
-        Task<Person> GetPerson(string name);
-        Task<Person> GetPerson(ObjectId id);
+        Task<Person> GetPerson(string id);
         Task<List<Person>> GetPersons(ObjectId teamId);
+        Task<List<Team>> GetTeams();
         Task<Team> GetTeam(string name);
         Task<Team> GetTeam(ObjectId id);
         void RemoveAndInsert(Participant participant);
-        Task<ObjectId> UpdatePerson(Person p);
+        Task<string> UpdatePerson(Person p);
         Task<ObjectId> UpdateTeam(Team t);
     }
 }
