@@ -61,7 +61,7 @@ namespace mm.Models
         public List<Team> Teams { get; set; }
         public string TeamName { get; set; }
         public DayOfWeek Day { get; set; }
-        public ObjectId TeamId { get; set; }
+        public string TeamId { get; set; }
 
         public string Id { get; set; }
         public string Email { get; set; }

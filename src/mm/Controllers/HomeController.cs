@@ -12,19 +12,21 @@ namespace mm.Controllers
     public class HomeController : Controller
     {
         IMongoStore _ds;
+        BreakfastLogic _b;
 
         public HomeController(IMongoStore dataStore)
         {
             _ds = dataStore;
-
-            //todo determine team based upon user
-            //var x = User.Identity.Name;
+            var b = new BreakfastLogic(_ds);
         }
 
-        public IActionResult Index(string submit)
+        public async Task<IActionResult> Index(string submit)
         {
             var b = new BreakfastLogic(_ds);
-            return View("NewUser");
+            //todo show this if User.Identity is unknown -
+            //return View("NewUser");
+            return await NewUser(null);
+
             b.LoadPersons();
             b.LoadParticipants();
             return View(b.CreateEventList(DateTime.Now.AddDays(-21)));
@@ -46,14 +48,22 @@ namespace mm.Controllers
             return View("Index", b.CreateEventList(DateTime.Now.AddDays(-21)));
         }
 
-        [HttpPost]
-        public async Task<IActionResult> NewUser(string id, string email, string teamId)
+        public async Task<IActionResult> NewUser(EditTeamPerson model)
         {
-            var model = new EditTeamPerson();
+            switch (Request.Method)
+            {
+                case "GET":
+                    model = new EditTeamPerson()
+                    {
+                        Teams = await _ds.GetTeams()
+                    };
+                    return View("NewUser", model);
+                case "POST":
+                    return View("NewUser", model);
+                default:
+                    return Error();
+            }
 
-            model.Teams = await _ds.GetTeams();
-
-            return View("NewUser", model);
         }
 
         //public IActionResult About()
