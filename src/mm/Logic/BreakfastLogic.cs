@@ -61,18 +61,31 @@ namespace mm.Logic
 
         public List<Person> WhoIsNextList()
         {
+            // first create a list of those who actually gave breakfast
             var dates = from n in _participants
                         where n.Participating == Participation.Buying || n.Participating == Participation.Override
                         group n by n.PersonId into g
                         select new { Id = g.Key, When = g.Max(t => t.When) };
 
-            var who = from d in dates
+            // convert that to a list of persons
+            var who = (from d in dates
                       orderby d.When
                       join p in _persons on d.Id equals p.Id
                       where p.Deleted == null
-                      select p;
+                      select p).ToList();
 
-            return who.ToList();
+            // now find persons who never gave breakfast
+            var never = _persons.FindAll(p => (p.Deleted == null) && !who.Any(w => w.Id == p.Id)).OrderBy(n => n.Created);
+
+            // those who never gave, should give after the next in line 
+            // todo implement  a selectable way of determining when new persons should buy breakfast
+
+            if (who.Any())
+                who.InsertRange(1, never);
+            else
+                who.AddRange(never);
+
+            return who;
         }
 
         public BreakfastsView CreateEventList(DateTime fromDate)
