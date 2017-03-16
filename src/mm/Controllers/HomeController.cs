@@ -24,8 +24,7 @@ namespace mm.Controllers
         {
             var b = new BreakfastLogic(_ds);
             //todo show this if User.Identity is unknown -
-            //return View("NewUser");
-            return await NewUser(null);
+            //return await NewUser(null);
 
             b.LoadPersons();
             b.LoadParticipants();
