@@ -12,29 +12,29 @@ namespace mm.Controllers
     public class HomeController : Controller
     {
         IMongoStore _ds;
-        BreakfastLogic _b;
+        BreakfastLogic b;
 
         public HomeController(IMongoStore dataStore)
         {
             _ds = dataStore;
-            var b = new BreakfastLogic(_ds);
+            b = new BreakfastLogic(_ds);
         }
 
         public async Task<IActionResult> Index(string submit)
         {
-            var b = new BreakfastLogic(_ds);
-            //todo show this if User.Identity is unknown -
-            //return View("NewUser");
-            return await NewUser(null);
+            if (!b.AuthenticateUser(User.Identity.Name))
+                return RedirectToAction("NewUser");
 
             b.LoadPersons();
             b.LoadParticipants();
             return View(b.CreateEventList(DateTime.Now.AddDays(-21)));
         }
 
-        public IActionResult ChangeStatus(string id)
+        public async Task<IActionResult> ChangeStatus(string id)
         {
-            var b = new BreakfastLogic(_ds);
+            if (!b.AuthenticateUser(User.Identity.Name))
+                return await NewUser();
+
             b.LoadPersons();
 
             if (id != null)
@@ -48,22 +48,30 @@ namespace mm.Controllers
             return View("Index", b.CreateEventList(DateTime.Now.AddDays(-21)));
         }
 
+        [HttpGet]
+        public async Task<IActionResult> NewUser()
+        {
+            var model = new EditTeamPerson() {  Teams = await _ds.GetTeams() };
+            return View(model);
+        }
+
+        [HttpPost]
         public async Task<IActionResult> NewUser(EditTeamPerson model)
         {
-            switch (Request.Method)
+            try
             {
-                case "GET":
-                    model = new EditTeamPerson()
-                    {
-                        Teams = await _ds.GetTeams()
-                    };
-                    return View("NewUser", model);
-                case "POST":
-                    return View("NewUser", model);
-                default:
-                    return Error();
-            }
+                var parts = User.Identity.Name.Split('\\');
+                var p = new Person(parts[1], model.Email, model.TeamId);
+                await _ds.AddPerson(p);
 
+                return RedirectToAction("Index");
+            }
+            catch (Exception ex)
+            {
+                model.Message = ex.Message;
+                model.Teams = await _ds.GetTeams();
+                return View("NewUser", model);
+            }
         }
 
         //public IActionResult About()

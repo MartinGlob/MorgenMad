@@ -75,6 +75,11 @@ namespace mm.DataStore
             return p.Id;
         }
 
+        public async Task AddPerson(Person p)
+        {
+            await _persons.InsertOneAsync(p);
+        }
+
         public async Task<Person> GetPerson(string id)
         {
             return await _persons.Find(t => t.Id == id).FirstOrDefaultAsync();

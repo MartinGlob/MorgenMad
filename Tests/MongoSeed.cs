@@ -20,17 +20,17 @@ namespace Tests
 
             var teamId = await m.UpdateTeam(new Team { Name = "34AP", EventDay = DayOfWeek.Friday });
 
-            var idCAJRG = await m.UpdatePerson(new Person("BB001", "cajrg@danskebank.dk", teamId) { Deleted = new DateTime(2016, 10, 14) });
-            var idJEHE = await m.UpdatePerson(new Person("BB002", "jehe@danskebank.dk", teamId));
-            var idRCHI = await m.UpdatePerson(new Person("BB003", "rchi@danskebank.dk", teamId));
-            var idKEPET = await m.UpdatePerson(new Person("BB004", "kepet@danskebank.dk", teamId));
-            var idTBER = await m.UpdatePerson(new Person("BB005", "tber@danskebank.dk", teamId) { Deleted = new DateTime(2017, 01, 30) });
-            var idIO = await m.UpdatePerson(new Person("BB006", "io@danskebank.dk", teamId));
-            var idYLI = await m.UpdatePerson(new Person("BB007", "yli@danskebank.dk", teamId));
-            var idLEDY = await m.UpdatePerson(new Person("BB008", "ledy@danskebank.dk", teamId));
-            var idALLLA = await m.UpdatePerson(new Person("BB009", "allla@danskebank.dk", teamId));
-            var idMGL = await m.UpdatePerson(new Person("BB010", "mgl@danskebank.dk", teamId));
-            var idVAAL = await m.UpdatePerson(new Person("BB011", "vaal@danskebank.dk", teamId));
+            var idCAJRG = await m.UpdatePerson(new Person("BB001", "cajrg@danskebank.dk", teamId.ToString()) { Deleted = new DateTime(2016, 10, 14) });
+            var idJEHE = await m.UpdatePerson(new Person("BB002", "jehe@danskebank.dk", teamId.ToString()));
+            var idRCHI = await m.UpdatePerson(new Person("BB003", "rchi@danskebank.dk", teamId.ToString()));
+            var idKEPET = await m.UpdatePerson(new Person("BB004", "kepet@danskebank.dk", teamId.ToString()));
+            var idTBER = await m.UpdatePerson(new Person("BB005", "tber@danskebank.dk", teamId.ToString()) { Deleted = new DateTime(2017, 01, 30) });
+            var idIO = await m.UpdatePerson(new Person("BB006", "io@danskebank.dk", teamId.ToString()));
+            var idYLI = await m.UpdatePerson(new Person("BB007", "yli@danskebank.dk", teamId.ToString()));
+            var idLEDY = await m.UpdatePerson(new Person("BB008", "ledy@danskebank.dk", teamId.ToString()));
+            var idALLLA = await m.UpdatePerson(new Person("BB009", "allla@danskebank.dk", teamId.ToString()));
+            var idMGL = await m.UpdatePerson(new Person("BB010", "mgl@danskebank.dk", teamId.ToString()));
+            var idVAAL = await m.UpdatePerson(new Person("BB011", "vaal@danskebank.dk", teamId.ToString()));
 
             await m.SetParticipant(new Participant(new DateTime(2016, 10, 14), teamId, idCAJRG, Participation.Buying));
             await m.SetParticipant(new Participant(new DateTime(2016, 11, 25), teamId, idJEHE, Participation.Buying));

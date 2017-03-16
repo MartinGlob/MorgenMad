@@ -12,26 +12,36 @@ namespace mm.Logic
     public class BreakfastLogic
     {
         IMongoStore _ds;
-        ObjectId _teamId;
-
         List<Person> _persons;
         List<Participant> _participants;
+
+        public Person User { get; set; }
 
         public BreakfastLogic(IMongoStore db)
         {
             _ds = db;
-            var t = _ds.GetTeam("34AP").Result;
-            _teamId = t.Id;
+        }
+
+        //todo Cache user
+        public bool AuthenticateUser(string WindowsUser)
+        {
+            if (!string.IsNullOrWhiteSpace(WindowsUser))
+            {
+                // split domain/userid
+                var parts = WindowsUser.Split('\\');
+                User = _ds.GetPerson(parts[1]).Result;
+            }
+            return User != null;
         }
 
         public void LoadPersons()
         {
-            _persons = _ds.GetPersons(_teamId).Result;
+            _persons = _ds.GetPersons(User.TeamId).Result;
         }
 
         public void LoadParticipants()
         {
-            _participants = _ds.GetParticipants(_teamId).Result;
+            _participants = _ds.GetParticipants(User.TeamId).Result;
         }
 
         public Person NextGiver(List<Person> notParticipating)
@@ -67,7 +77,6 @@ namespace mm.Logic
 
         public BreakfastsView CreateEventList(DateTime fromDate)
         {
-
             var view = new BreakfastsView();
 
             DateTime nextDate = DateTime.Today.ToUniversalTime();
@@ -129,7 +138,7 @@ namespace mm.Logic
 
                     _participants.RemoveAll(p => p.Participating == Participation.Buying && IsSameDate(p.When, be.When));
 
-                    _participants.Add(new Participant { Participating = Participation.Buying, PersonId = be.Buying.Id, TeamId = _teamId, When = be.When });
+                    _participants.Add(new Participant { Participating = Participation.Buying, PersonId = be.Buying.Id, TeamId = User.TeamId, When = be.When });
                 }
                 else
                 {

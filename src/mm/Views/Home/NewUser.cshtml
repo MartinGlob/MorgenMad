@@ -9,6 +9,12 @@
     @using (@Html.BeginForm("NewUser", "Home", FormMethod.Post))
     {
 
+        @if (!string.IsNullOrWhiteSpace(Model.Message))
+        {
+            <div class="alert alert-danger">
+                <strong>Error</strong> @Model.Message
+            </div>
+        }
 
         <div class="form-group">
             <label for="TeamId">Team</label>

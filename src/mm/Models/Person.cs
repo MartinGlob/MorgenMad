@@ -38,10 +38,11 @@ namespace mm.Models
             Created = DateTime.UtcNow;
         }
 
-        public Person(string id, string email, ObjectId teamId)
+        public Person(string id, string email, string teamId)
         {
+            Created = DateTime.Now;
             Id = id;
-            TeamId = teamId;
+            TeamId = ObjectId.Parse(teamId);
             Name = email.Split('@')[0].ToUpper();
             EMail = email.ToLower();
         }
@@ -58,6 +59,8 @@ namespace mm.Models
 
     public class EditTeamPerson
     {
+        public string Message { get; set; }
+
         public List<Team> Teams { get; set; }
         public string TeamName { get; set; }
         public DayOfWeek Day { get; set; }

@@ -16,6 +16,7 @@ namespace mm.DataStore
         Task<Team> GetTeam(ObjectId id);
         void RemoveAndInsert(Participant participant);
         Task<string> UpdatePerson(Person p);
+        Task AddPerson(Person p);
         Task<ObjectId> UpdateTeam(Team t);
     }
 }
