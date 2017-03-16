@@ -30,10 +30,12 @@
                 <tr>
                     <td><b>@breakfast.When.ToLocalTime().ToString("dd-MMM")</b></td>
                     <td>
+                        
                         @if (breakfast.Buying != null)
                         {
+                            var buyerClass = breakfast.BuyerStatus == Participation.Buying ? " btn-primary " : "btn-warning ";
                             <div class="dropdown">
-                                <button class="btn btn-sm btn-primary dropdown-toggle @disabled" type="button" data-toggle="dropdown">
+                                <button class="btn btn-sm @buyerClass dropdown-toggle @disabled" type="button" data-toggle="dropdown">
                                     @breakfast.Buying.Name
                                     <span class="caret"></span>
                                 </button>

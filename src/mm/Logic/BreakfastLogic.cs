@@ -114,6 +114,8 @@ namespace mm.Logic
                     continue;
                 }
 
+                be.BuyerStatus = Participation.Buying;
+
                 be.Buying = _persons.FirstOrDefault(p => p.Id == participantGiving.PersonId);
 
                 be.NotParticipating = (from np in _participants
@@ -143,6 +145,11 @@ namespace mm.Logic
                 if (be.Buying == null)
                 {
                     be.Buying = NextGiver(be.NotParticipating);
+                    be.BuyerStatus = Participation.Buying;
+                }
+                else
+                {
+                    be.BuyerStatus = Participation.Override;
                 }
 
                 if (be.Buying != null)

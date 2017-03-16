@@ -102,6 +102,7 @@ namespace mm.Models
         public bool Skipped { get; set; }
         public string WhenDisplay { get; set; }
         public Person Buying { get; set; }
+        public Participation BuyerStatus { get; set; }
         public List<Person> Participating { get; set; }
         public List<Person> NotParticipating { get; set; }
 
