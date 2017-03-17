@@ -45,7 +45,7 @@ namespace mm.Controllers
 
             b.LoadParticipants();
 
-            return View("Index", b.CreateEventList(DateTime.Now.AddDays(-21)));
+            return RedirectToAction("Index");
         }
 
         [HttpGet]

@@ -20,8 +20,8 @@ namespace mm.DataStore
 
         public MongoStore()
         {
-            _client = new MongoClient("mongodb://localhost");
-            _db = _client.GetDatabase("MorgenMad");
+            _client = new MongoClient("mongodb://Y31484"); //Y31484
+             _db = _client.GetDatabase("MorgenMad");
 
             _teams = _db.GetCollection<Team>("Teams");
             _teams.Indexes.CreateOneAsync(Builders<Team>.IndexKeys.Ascending(_ => _.Name), new CreateIndexOptions { Unique = true });
