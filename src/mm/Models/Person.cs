@@ -5,6 +5,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using MongoDB.Bson;
 using MongoDB.Bson.Serialization.Attributes;
+using Microsoft.AspNetCore.Mvc.Rendering;
 
 namespace mm.Models
 {
@@ -61,12 +62,14 @@ namespace mm.Models
     {
         public string Message { get; set; }
 
-        public List<Team> Teams { get; set; }
+        public IList<SelectListItem> Teams { get; set; }
         public string TeamName { get; set; }
         public DayOfWeek Day { get; set; }
         public string TeamId { get; set; }
 
         public string Id { get; set; }
+        [Required(ErrorMessage = "Required")]
+        [EmailAddress(ErrorMessage = "Invalid Email Address")]
         public string Email { get; set; }
         public string Name { get; set; }
     }

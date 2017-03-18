@@ -6,6 +6,7 @@ using Microsoft.AspNetCore.Mvc;
 using mm.DataStore;
 using mm.Logic;
 using mm.Models;
+using Microsoft.AspNetCore.Mvc.Rendering;
 
 namespace mm.Controllers
 {
@@ -48,10 +49,21 @@ namespace mm.Controllers
             return View("Index", b.CreateEventList(DateTime.Now.AddDays(-21)));
         }
 
+        private IList<SelectListItem> GetTeams()
+        {
+            var l = new List<SelectListItem>();
+
+            foreach (var t in _ds.GetTeams().Result)
+            {
+                l.Add(new SelectListItem() { Text = t.Name, Value = t.Id.ToString() });
+            }
+            return l;
+        }
+
         [HttpGet]
         public async Task<IActionResult> NewUser()
         {
-            var model = new EditTeamPerson() {  Teams = await _ds.GetTeams() };
+            var model = new EditTeamPerson() { Teams = GetTeams() };
             return View(model);
         }
 
@@ -60,6 +72,12 @@ namespace mm.Controllers
         {
             try
             {
+                if (!ModelState.IsValid)
+                {
+                    model.Teams =GetTeams();
+                    return View(model);
+                }
+
                 var parts = User.Identity.Name.Split('\\');
                 var p = new Person(parts[1], model.Email, model.TeamId);
                 await _ds.AddPerson(p);
@@ -69,7 +87,7 @@ namespace mm.Controllers
             catch (Exception ex)
             {
                 model.Message = ex.Message;
-                model.Teams = await _ds.GetTeams();
+                model.Teams = GetTeams();
                 return View("NewUser", model);
             }
         }
