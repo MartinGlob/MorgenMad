@@ -44,22 +44,7 @@ namespace mm.Logic
             _participants = _ds.GetParticipants(User.TeamId).Result;
         }
 
-        public Person NextGiver(List<Person> notParticipating)
-        {
-            var list = WhoIsNextList();
-
-            foreach (var g in list)
-            {
-                if (notParticipating.Exists(p => p.Id == g.Id))
-                    continue;
-
-                return g;
-            }
-
-            return null;
-        }
-
-        public List<Person> WhoIsNextList()
+        public NextBuyerClass WhoIsNextList()
         {
             // first create a list of those who actually gave breakfast
             var dates = from n in _participants
@@ -69,10 +54,10 @@ namespace mm.Logic
 
             // convert that to a list of persons
             var who = (from d in dates
-                      orderby d.When
-                      join p in _persons on d.Id equals p.Id
-                      where p.Deleted == null
-                      select p).ToList();
+                       orderby d.When
+                       join p in _persons on d.Id equals p.Id
+                       where p.Deleted == null
+                       select p).ToList();
 
             // now find persons who never gave breakfast
             var never = _persons.FindAll(p => (p.Deleted == null) && !who.Any(w => w.Id == p.Id)).OrderBy(n => n.Created);
@@ -85,7 +70,7 @@ namespace mm.Logic
             else
                 who.AddRange(never);
 
-            return who;
+            return new NextBuyerClass(who);
         }
 
         public BreakfastsView CreateEventList(DateTime fromDate)
@@ -128,40 +113,54 @@ namespace mm.Logic
                 view.Breakfasts.Add(be);
             }
 
-            for (var i = 1; i < 12; i++)
+            var next = WhoIsNextList();
+
+            for (var i = 1; i < 18; i++)
             {
                 var be = new Breakfast { When = nextDate };
 
+                // create a list of those listed as not participating 
                 be.NotParticipating = (from np in _participants
                                        where np.Participating == Participation.NotParticipating && IsSameDate(np.When, nextDate)
                                        join p in _persons on np.PersonId equals p.Id
                                        select p).OrderBy(p => p.Id).ToList();
 
+                // check if some one is listed as the buyer (todo Override is probably the only status to check for)
                 be.Buying = (from b in _participants
                              where (b.Participating == Participation.Buying || b.Participating == Participation.Override) && IsSameDate(b.When, nextDate)
                              join p in _persons on b.PersonId equals p.Id
                              select p).FirstOrDefault();
 
-                if (be.Buying == null)
+                if (be.Buying != null)
                 {
-                    be.Buying = NextGiver(be.NotParticipating);
-                    be.BuyerStatus = Participation.Buying;
+                    // found one..
+                    be.BuyerStatus = Participation.Override;
                 }
                 else
                 {
-                    be.BuyerStatus = Participation.Override;
+                    // FInd next buyer that is not listed as not participating
+                    if (be.NotParticipating.Count < next.Count())
+                    {
+                        int idx = 0;
+                        while (be.NotParticipating.Exists(x => x.Id == next.Peek(idx).Id))
+                        {
+                            idx++;
+                        }
+                        be.Buying = next.Peek(idx);
+                        next.MoveToEnd(be.Buying);
+                        be.BuyerStatus = Participation.Buying;
+                    }
                 }
 
                 if (be.Buying != null)
                 {
+                    // next buyer was found!
                     be.Participating = _persons.Where(p => p.WasActive(be.When) && p.Id != be.Buying.Id && be.NotParticipating.All(np => np.Id != p.Id)).OrderBy(p => p.Name).ToList();
-
-                    _participants.RemoveAll(p => p.Participating == Participation.Buying && IsSameDate(p.When, be.When));
-
-                    _participants.Add(new Participant { Participating = Participation.Buying, PersonId = be.Buying.Id, TeamId = User.TeamId, When = be.When });
+                    next.MoveToEnd(be.Buying);
                 }
                 else
                 {
+                    // next buyer was not found - none one was participating on that date
                     be.Participating = new List<Person>();
                 }
 
@@ -191,4 +190,3 @@ namespace mm.Logic
         }
     }
 }
-
