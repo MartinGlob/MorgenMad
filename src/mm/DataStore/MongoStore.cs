@@ -18,9 +18,9 @@ namespace mm.DataStore
         IMongoCollection<Participant> _participants;
         IMongoCollection<Person> _persons;
 
-        public MongoStore()
+        public MongoStore(string connectionString)
         {
-            _client = new MongoClient("mongodb://localhost"); //Y31484
+            _client = new MongoClient(connectionString);
              _db = _client.GetDatabase("MorgenMad");
 
             _teams = _db.GetCollection<Team>("Teams");
@@ -82,6 +82,7 @@ namespace mm.DataStore
 
         public async Task<Person> GetPerson(string id)
         {
+            id = id.ToLower();
             return await _persons.Find(t => t.Id == id).FirstOrDefaultAsync();
         }
 

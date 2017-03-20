@@ -24,15 +24,19 @@ namespace mm
         }
 
         public IConfigurationRoot Configuration { get; }
-        IServiceCollection x;
 
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
             // Add framework services.
             services.AddMvc();
-            
-            services.AddSingleton<IMongoStore, MongoStore>();
+
+            // connectionstrings must be named ConnStr<MachineName>
+            string conString = ConfigurationExtensions.GetConnectionString(Configuration, $"ConnStr{Environment.MachineName}");
+            if (string.IsNullOrWhiteSpace(conString))
+                conString = ConfigurationExtensions.GetConnectionString(Configuration, $"ConnStrDefault");
+
+            services.AddSingleton<IMongoStore>(provider => new MongoStore(conString));
 
         }
 

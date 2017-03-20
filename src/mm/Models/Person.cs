@@ -24,7 +24,7 @@ namespace mm.Models
         public Person(string id, string email, string teamId)
         {
             Created = DateTime.Now;
-            Id = id;
+            Id = id.ToLower();
             TeamId = ObjectId.Parse(teamId);
             Name = email.Split('@')[0].ToUpper();
             EMail = email.ToLower();

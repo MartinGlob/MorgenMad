@@ -12,7 +12,7 @@ namespace Tests
         [TestMethod]
         public async Task InitializeMongo()
         {
-            var m = new MongoStore();
+            var m = new MongoStore("mongodb://localhost");
             m.ClearAll();
 
             await m.UpdateTeam(new Team { Name = "C&I GLS", EventDay = DayOfWeek.Friday });
@@ -29,7 +29,7 @@ namespace Tests
             var idYLI = await m.UpdatePerson(new Person("BB007", "yli@danskebank.dk", teamId.ToString()));
             var idLEDY = await m.UpdatePerson(new Person("BB008", "ledy@danskebank.dk", teamId.ToString()));
             var idALLLA = await m.UpdatePerson(new Person("BB009", "allla@danskebank.dk", teamId.ToString()));
-            var idMGL = await m.UpdatePerson(new Person("BB010", "mgl@danskebank.dk", teamId.ToString()));
+            var idMGL = await m.UpdatePerson(new Person("Martin", "mgl@danskebank.dk", teamId.ToString()));
             var idVAAL = await m.UpdatePerson(new Person("BB011", "vaal@danskebank.dk", teamId.ToString()));
 
             await m.SetParticipant(new Participant(new DateTime(2016, 10, 14), teamId, idCAJRG, Participation.Buying));
@@ -43,18 +43,15 @@ namespace Tests
             await m.SetParticipant(new Participant(new DateTime(2017, 01, 27), teamId, idLEDY, Participation.Buying));
             await m.SetParticipant(new Participant(new DateTime(2017, 02, 03), teamId, idALLLA, Participation.Buying));
             await m.SetParticipant(new Participant(new DateTime(2017, 02, 10), teamId, idMGL, Participation.Buying));
-            await m.SetParticipant(new Participant(new DateTime(2017, 02, 10), teamId, idJEHE, Participation.NotParticipating));
-            await m.SetParticipant(new Participant(new DateTime(2017, 02, 10), teamId, idRCHI, Participation.NotParticipating));
             await m.SetParticipant(new Participant(new DateTime(2017, 02, 17), teamId, idVAAL, Participation.Buying));
             await m.SetParticipant(new Participant(new DateTime(2017, 02, 24), teamId, idRCHI, Participation.Buying));
             await m.SetParticipant(new Participant(new DateTime(2017, 03, 03), teamId, idJEHE, Participation.Buying));
             await m.SetParticipant(new Participant(new DateTime(2017, 03, 10), teamId, idKEPET, Participation.Buying));
-            await m.SetParticipant(new Participant(new DateTime(2017, 03, 10), teamId, idMGL, Participation.NotParticipating));
+            await m.SetParticipant(new Participant(new DateTime(2017, 03, 17), teamId, idLEDY, Participation.Buying));
 
-            await m.SetParticipant(new Participant(new DateTime(2017, 03, 17), teamId, idIO, Participation.NotParticipating));
-            await m.SetParticipant(new Participant(new DateTime(2017, 03, 17), teamId, idYLI, Participation.NotParticipating));
-
-
+            //await m.SetParticipant(new Participant(new DateTime(2017, 03, 10), teamId, idMGL, Participation.NotParticipating));
+            //await m.SetParticipant(new Participant(new DateTime(2017, 03, 17), teamId, idIO, Participation.NotParticipating));
+            //await m.SetParticipant(new Participant(new DateTime(2017, 03, 17), teamId, idYLI, Participation.NotParticipating));
         }
     }
 }
