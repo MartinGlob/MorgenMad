@@ -15,21 +15,7 @@ namespace mm.Models
 
         public string GenChangeLink(Person person, Participation status)
         {
-            return $"/Home/ChangeStatus/{When.ToLocalTime():yyyyMMdd}:{person.Id}:{status.ToString("D")}";
+            return $"ChangeStatus/{When.ToLocalTime():yyyyMMdd}/{person.Id}/{status.ToString("D")}";
         }
-         
-        public static Participant DecodeChangeId(string id)
-        {
-            var r = new Participant();
-
-            var a = id.Split(':');
-            r.When =  DateTime.ParseExact(a[0], "yyyyMMdd", null, System.Globalization.DateTimeStyles.AssumeLocal).ToUniversalTime();
-            
-            r.PersonId = a[1];
-            r.Participating =(Participation) Enum.Parse(typeof(Participation), a[2]);
-
-            return r;
-        }
-
     }
 }

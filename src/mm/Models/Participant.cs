@@ -17,6 +17,13 @@ namespace mm.Models
 
         public Participant() {}
 
+        public Participant(string when, string id, string status)
+        {
+            When = DateTime.ParseExact(when, "yyyyMMdd", null, System.Globalization.DateTimeStyles.AssumeLocal).ToUniversalTime();
+            PersonId = id;
+            Participating = (Participation)Enum.Parse(typeof(Participation), status);
+        }
+
         public Participant(DateTime when, ObjectId teamId, string personId, Participation participating)
         {
             When = when;

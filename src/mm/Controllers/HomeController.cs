@@ -21,7 +21,9 @@ namespace mm.Controllers
             b = new BreakfastLogic(_ds);
         }
 
-        public async Task<IActionResult> Index(string submit)
+        [HttpGet("/")]
+        [HttpGet("Home")]
+        public async Task<IActionResult> Index()
         {
             if (!b.AuthenticateUser(User.Identity.Name))
                 return RedirectToAction("NewUser");
@@ -31,7 +33,8 @@ namespace mm.Controllers
             return View(b.CreateEventList(DateTime.Now.AddDays(-21)));
         }
 
-        public async Task<IActionResult> ChangeStatus(string id)
+        [HttpGet("ChangeStatus/{when}/{id}/{status}")]
+        public async Task<IActionResult> ChangeStatus(string when, string id, string status)
         {
             if (!b.AuthenticateUser(User.Identity.Name))
                 return await NewUser();
@@ -40,7 +43,8 @@ namespace mm.Controllers
 
             if (id != null)
             {
-                var p = Breakfast.DecodeChangeId(id);
+                var p = new Participant(when, id, status);
+                //var p = Breakfast.DecodeChangeId(id);
                 b.ChangeParticipation(p);
             }
 
