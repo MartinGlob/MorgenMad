@@ -23,7 +23,7 @@ namespace mm.Controllers
 
         [HttpGet("/")]
         [HttpGet("Home")]
-        public async Task<IActionResult> Index()
+        public IActionResult Index()
         {
             if (!b.AuthenticateUser(User.Identity.Name))
                 return RedirectToAction("NewUser");
@@ -34,21 +34,20 @@ namespace mm.Controllers
         }
 
         [HttpGet("ChangeStatus/{when}/{id}/{status}")]
-        public async Task<IActionResult> ChangeStatus(string when, string id, string status)
+        public IActionResult ChangeStatus(string when, string id, string status)
         {
             if (!b.AuthenticateUser(User.Identity.Name))
-                return await NewUser();
+                return NewUser();
 
             b.LoadPersons();
 
             if (id != null)
             {
                 var p = new Participant(when, id, status);
-                //var p = Breakfast.DecodeChangeId(id);
                 b.ChangeParticipation(p);
             }
 
-            b.LoadParticipants();
+            //b.LoadParticipants();
 
             return RedirectToAction("Index");
         }
@@ -65,7 +64,7 @@ namespace mm.Controllers
         }
 
         [HttpGet]
-        public async Task<IActionResult> NewUser()
+        public IActionResult NewUser()
         {
             var model = new EditTeamPerson() { Teams = GetTeams() };
             return View(model);
@@ -96,19 +95,12 @@ namespace mm.Controllers
             }
         }
 
-        //public IActionResult About()
-        //{
-        //    ViewData["Message"] = "Your application description page.";
-
-        //    return View();
-        //}
-
-        //public IActionResult Contact()
-        //{
-        //    ViewData["Message"] = "Your contact page.";
-
-        //    return View();
-        //}
+        [HttpGet("Housekeeping")]
+        public async Task<IActionResult> Housekeeping()
+        {
+            //todo check if we need to add fixed Buyer status
+            return Ok();
+        }
 
         public IActionResult Error()
         {
