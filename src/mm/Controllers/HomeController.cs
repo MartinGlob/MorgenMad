@@ -23,7 +23,7 @@ namespace mm.Controllers
 
         [HttpGet("/")]
         [HttpGet("Home")]
-        public IActionResult Index()
+        public IActionResult Index() 
         {
             if (!b.AuthenticateUser(User.Identity.Name))
                 return RedirectToAction("NewUser");
