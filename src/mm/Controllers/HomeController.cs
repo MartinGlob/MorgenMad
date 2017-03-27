@@ -28,9 +28,7 @@ namespace mm.Controllers
             if (!b.AuthenticateUser(User.Identity.Name))
                 return RedirectToAction("NewUser");
 
-            b.LoadPersons();
-            b.LoadParticipants();
-            return View(b.CreateEventList(DateTime.Now.AddDays(-21)));
+            return View(b.CreateEventList(3,18));
         }
 
         [HttpGet("ChangeStatus/{when}/{id}/{status}")]
@@ -39,15 +37,15 @@ namespace mm.Controllers
             if (!b.AuthenticateUser(User.Identity.Name))
                 return NewUser();
 
-            b.LoadPersons();
+            //b.LoadPersons();
 
             if (id != null)
             {
                 var p = new Participant(when, id, status);
                 b.ChangeParticipation(p);
-            }
 
-            //b.LoadParticipants();
+                _ds.Log($"{b.User.Id} changed {p.PersonId} {p.When.ToString("yyyy-MM-dd")} {p.Participating}");
+            }
 
             return RedirectToAction("Index");
         }
@@ -98,7 +96,13 @@ namespace mm.Controllers
         [HttpGet("Housekeeping")]
         public async Task<IActionResult> Housekeeping()
         {
-            //todo check if we need to add fixed Buyer status
+            var teams = _ds.GetTeams().Result;
+            foreach (var t in teams)
+            {
+                b.User = new Person { TeamId = t.Id };
+                var evt = b.CreateEventList(0, 1, reloadTeam : true);
+            }
+
             return Ok();
         }
 

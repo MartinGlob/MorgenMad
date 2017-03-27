@@ -18,5 +18,6 @@ namespace mm.DataStore
         Task<string> UpdatePerson(Person p);
         Task AddPerson(Person p);
         Task<ObjectId> UpdateTeam(Team t);
+        Task Log(string msg);
     }
 }

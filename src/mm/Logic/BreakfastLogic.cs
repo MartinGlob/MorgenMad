@@ -12,14 +12,40 @@ namespace mm.Logic
     public class BreakfastLogic
     {
         IMongoStore _ds;
-        List<Person> _persons;
-        List<Participant> _participants;
+        List<Person> _personsf;
+        List<Participant> _participantsf;
 
         public Person User { get; set; }
 
         public BreakfastLogic(IMongoStore db)
         {
             _ds = db;
+        }
+
+        private List<Person> _persons { get
+            {
+                if (_personsf == null)
+                {
+                    if (User == null)
+                        throw new Exception("User has not been authenticated before use of _persons");
+                    _personsf = _ds.GetPersons(User.TeamId).Result;
+                }
+                return _personsf;
+            }
+        }
+
+        private List<Participant> _participants
+        {
+            get
+            {
+                if (_participantsf == null)
+                {
+                    if (User == null)
+                        throw new Exception("User has not been authenticated before use of _participants");
+                    _participantsf = _ds.GetParticipants(User.TeamId).Result;
+                }
+                return _participantsf;
+            }
         }
 
         //todo Cache user
@@ -32,16 +58,6 @@ namespace mm.Logic
                 User = _ds.GetPerson(parts[1]).Result;
             }
             return User != null;
-        }
-
-        public void LoadPersons()
-        {
-            _persons = _ds.GetPersons(User.TeamId).Result;
-        }
-
-        public void LoadParticipants()
-        {
-            _participants = _ds.GetParticipants(User.TeamId).Result;
         }
 
         public NextBuyerClass WhoIsNextList()
@@ -73,8 +89,15 @@ namespace mm.Logic
             return new NextBuyerClass(who);
         }
 
-        public BreakfastsView CreateEventList(DateTime fromDate)
+        public BreakfastsView CreateEventList(int numberOfPreviousWeeks, int numberOfWeeksToShow, bool reloadTeam = false)
         {
+            if (reloadTeam)
+            {
+                _participantsf = null;
+                _personsf = null;
+
+            }
+
             var view = new BreakfastsView();
 
             DateTime nextDate = DateTime.Today.ToUniversalTime();
@@ -82,40 +105,41 @@ namespace mm.Logic
             //todo this is the place to fix so any day can be breakfast day ;-)
             while (nextDate.ToLocalTime().DayOfWeek != DayOfWeek.Friday) { nextDate = nextDate.AddDays(1); }
 
-            if (_participants == null)
-                throw new Exception("PART IS NULL");
-
-            var oldEventDates = (from p in _participants where p.When >= fromDate && p.When < nextDate select p.When).Distinct().ToList();
-
-            foreach (var breakfastDate in oldEventDates)
+            if (numberOfPreviousWeeks > 0)
             {
-                var be = new Breakfast { When = breakfastDate };
+                var fromDate = DateTime.Now.AddDays(-7 * numberOfPreviousWeeks);
+                var oldEventDates = (from p in _participants where p.When >= fromDate && p.When < nextDate select p.When).Distinct().ToList();
 
-                var participantGiving = _participants.FirstOrDefault(p => (p.Participating == Participation.Buying || p.Participating == Participation.Override) && IsSameDate(p.When, breakfastDate));
-
-                if (participantGiving == null)
+                foreach (var breakfastDate in oldEventDates)
                 {
-                    be.Skipped = true;
-                    continue;
+                    var be = new Breakfast { When = breakfastDate };
+
+                    var participantGiving = _participants.FirstOrDefault(p => (p.Participating == Participation.Buying || p.Participating == Participation.Override) && IsSameDate(p.When, breakfastDate));
+
+                    if (participantGiving == null)
+                    {
+                        be.Skipped = true;
+                        continue;
+                    }
+
+                    be.BuyerStatus = Participation.Buying;
+
+                    be.Buying = _persons.FirstOrDefault(p => p.Id == participantGiving.PersonId);
+
+                    be.NotParticipating = (from np in _participants
+                                           where np.Participating == Participation.NotParticipating && IsSameDate(np.When, breakfastDate)
+                                           join p in _persons on np.PersonId equals p.Id
+                                           select p).OrderBy(p => p.Id).ToList();
+
+                    be.Participating = _persons.Where(p => p.WasActive(be.When) && p.Id != be.Buying.Id && !be.NotParticipating.Any(np => np.Id == p.Id)).OrderBy(p => p.Name).ToList();
+
+                    view.Breakfasts.Add(be);
                 }
-
-                be.BuyerStatus = Participation.Buying;
-
-                be.Buying = _persons.FirstOrDefault(p => p.Id == participantGiving.PersonId);
-
-                be.NotParticipating = (from np in _participants
-                                       where np.Participating == Participation.NotParticipating && IsSameDate(np.When, breakfastDate)
-                                       join p in _persons on np.PersonId equals p.Id
-                                       select p).OrderBy(p => p.Id).ToList();
-
-                be.Participating = _persons.Where(p => p.WasActive(be.When) && p.Id != be.Buying.Id && !be.NotParticipating.Any(np => np.Id == p.Id)).OrderBy(p => p.Name).ToList();
-
-                view.Breakfasts.Add(be);
             }
 
             var next = WhoIsNextList();
 
-            for (var i = 1; i < 18; i++)
+            for (var i = 1; i <= numberOfWeeksToShow; i++)
             {
                 var be = new Breakfast { When = nextDate };
 

@@ -17,11 +17,12 @@ namespace mm.DataStore
         IMongoCollection<Team> _teams;
         IMongoCollection<Participant> _participants;
         IMongoCollection<Person> _persons;
+        IMongoCollection<LogItem> _log;
 
         public MongoStore(string connectionString)
         {
             _client = new MongoClient(connectionString);
-             _db = _client.GetDatabase("MorgenMad");
+            _db = _client.GetDatabase("MorgenMad");
 
             _teams = _db.GetCollection<Team>("Teams");
             _teams.Indexes.CreateOneAsync(Builders<Team>.IndexKeys.Ascending(_ => _.Name), new CreateIndexOptions { Unique = true });
@@ -31,6 +32,7 @@ namespace mm.DataStore
             _persons = _db.GetCollection<Person>("Persons");
             _persons.Indexes.CreateOneAsync(Builders<Person>.IndexKeys.Ascending(_ => _.Name), new CreateIndexOptions { Unique = true });
 
+            _log = _db.GetCollection<LogItem>("Log");
         }
 
         public async void ClearAll()
@@ -138,5 +140,9 @@ namespace mm.DataStore
             return await _participants.Find(p => p.TeamId == teamId).ToListAsync();
         }
 
+        public async Task Log(string msg)
+        {
+            await _log.InsertOneAsync(new LogItem { Msg = msg });
+        }
     }
 }
