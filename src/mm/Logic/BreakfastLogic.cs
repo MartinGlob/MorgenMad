@@ -89,7 +89,7 @@ namespace mm.Logic
             return new NextBuyerClass(who);
         }
 
-        public BreakfastsView CreateEventList(int numberOfPreviousWeeks, int numberOfWeeksToShow, bool reloadTeam = false)
+        public BreakfastsView CreateEventList(int numberOfPreviousWeeks, int numberOfWeeksToShow, bool reloadTeam = false, string errorMessage = null)
         {
             if (reloadTeam)
             {
@@ -99,6 +99,11 @@ namespace mm.Logic
             }
 
             var view = new BreakfastsView();
+
+            if (!string.IsNullOrWhiteSpace(errorMessage))
+            {
+                view.ErrorMessage = errorMessage;
+            }
 
             DateTime nextDate = DateTime.Today.ToUniversalTime();
 

@@ -8,7 +8,7 @@ namespace mm.Models
         {
             Breakfasts = new List<Breakfast>();
         }
-
+        public string ErrorMessage { get; set; }
         public List<Breakfast> Breakfasts { get; set; }
     }
 }

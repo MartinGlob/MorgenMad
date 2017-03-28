@@ -40,6 +40,12 @@ namespace mm.Controllers
             if (id != null)
             {
                 var p = new Participant(when, id, status);
+
+                if (p.When < DateTime.Today)
+                {
+                    return View("Index",b.CreateEventList(3, 18, errorMessage: "Sorry, your page is no longer valid... Please try again"));
+                }
+
                 b.ChangeParticipation(p);
 
                 _ds.Log($"{b.User.Id} changed {p.PersonId} {p.When.ToString("yyyy-MM-dd")} {p.Participating}");
