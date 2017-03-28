@@ -30,36 +30,35 @@
                 <tr>
                     <td><b>@breakfast.When.ToLocalTime().ToString("dd-MMM")</b></td>
                     <td>
-                        
+
                         @if (breakfast.Buying != null)
                         {
                             var buyerClass = breakfast.BuyerStatus == Participation.Buying ? " btn-primary " : "btn-warning ";
                             <div class="dropdown">
                                 <button class="btn btn-sm @buyerClass dropdown-toggle @disabled" type="button" data-toggle="dropdown">
                                     @breakfast.Buying.Name
-                                    
-                                    <span class="caret"></span>
-                                </button>
-                                <ul class="dropdown-menu">
-                                    <li><a href="@breakfast.GenChangeLink(breakfast.Buying, Participation.Buying)">@breakfast.Buying.Name is OOO</a></li>
-                                    @foreach (var p in breakfast.Participating)
-                                    {
-                                        <li><a href="@breakfast.GenChangeLink(p, Participation.Override)">@p.Name</a></li>
-                                    }
-                                </ul>
-                            </div>
+                                <span class="caret"></span>
+                            </button>
+                            <ul class="dropdown-menu">
+                                <li>@Html.ActionLink($"{breakfast.Buying.Name} is OOO", "ChangeStatus", "Home", routeValues: breakfast.RouteValue(breakfast.Buying, Participation.Buying))</li>
+                                @foreach (var p in breakfast.Participating)
+                                {
+                                    <li>@Html.ActionLink(p.Name, "ChangeStatus", "Home", routeValues: breakfast.RouteValue(p, Participation.Override))</li>
+                                }
+                            </ul>
+                        </div>
                         }
                     </td>
                     <td>
                         @foreach (var p in breakfast.Participating)
                         {
-                            <a href="@breakfast.GenChangeLink(p, Participation.Participating)" class="btn btn-sm btn-success @disabled" role="button">@p.Name</a>
+                            @Html.ActionLink(p.Name, "ChangeStatus", "Home", routeValues: breakfast.RouteValue(p, Participation.Participating), htmlAttributes: new { @class = $"btn btn-sm btn-success {disabled}", @role = "button" })
                         }
                     </td>
                     <td>
                         @foreach (var p in breakfast.NotParticipating)
                         {
-                            <a href="@breakfast.GenChangeLink(p, Participation.NotParticipating)" class="btn btn-sm btn-danger @disabled" role="button">@p.Name</a>
+                            @Html.ActionLink(p.Name, "ChangeStatus", "Home", routeValues: breakfast.RouteValue(p, Participation.NotParticipating), htmlAttributes: new { @class = $"btn btn-sm btn-danger {disabled}", @role = "button" })
                         }
                     </td>
                 </tr>

@@ -17,5 +17,13 @@ namespace mm.Models
         {
             return $"ChangeStatus/{When.ToLocalTime():yyyyMMdd}/{person.Id}/{status.ToString("D")}";
         }
+
+        //new { when=breakfast.When.ToLocalTime().ToString("yyyyMMdd"),id=p.Id,status=Participation.Participating.ToString("D") }
+
+        public object RouteValue(Person person, Participation status)
+        {
+            return new { when = When.ToLocalTime().ToString("yyyyMMdd"), id = person.Id, status = status.ToString("D") };
+        }
+
     }
 }

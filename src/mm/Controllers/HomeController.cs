@@ -37,8 +37,6 @@ namespace mm.Controllers
             if (!b.AuthenticateUser(User.Identity.Name))
                 return NewUser();
 
-            //b.LoadPersons();
-
             if (id != null)
             {
                 var p = new Participant(when, id, status);
