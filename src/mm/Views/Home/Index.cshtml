@@ -32,8 +32,10 @@
             @foreach (var breakfast in Model.Breakfasts)
             {
                 var disabled = breakfast.When < DateTime.Now ? " disabled " : "";
+                var hightlight = breakfast.IsNext ? "success" : "";
 
-                <tr>
+                <tr class="@hightlight">
+
                     <td><b>@breakfast.When.ToLocalTime().ToString("dd-MMM")</b></td>
                     <td>
 

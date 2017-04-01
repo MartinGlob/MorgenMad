@@ -16,6 +16,7 @@ namespace mm.Logic
         List<Participant> _participantsf;
 
         public Person User { get; set; }
+        public Team Team { get; set; }
 
         public BreakfastLogic(IMongoStore db)
         {
@@ -49,13 +50,17 @@ namespace mm.Logic
         }
 
         //todo Cache user
-        public bool AuthenticateUser(string WindowsUser)
+        public async Task<bool> AuthenticateUser(string WindowsUser)
         {
             if (!string.IsNullOrWhiteSpace(WindowsUser))
             {
                 // split domain/userid
                 var parts = WindowsUser.Split('\\');
                 User = _ds.GetPerson(parts[1]).Result;
+                if (User != null)
+                {
+                    Team = await _ds.GetTeam(User.TeamId);
+                }
             }
             return User != null;
         }
@@ -144,9 +149,14 @@ namespace mm.Logic
 
             var next = WhoIsNextList();
 
+            var isNext = true;
+
             for (var i = 1; i <= numberOfWeeksToShow; i++)
             {
                 var be = new Breakfast { When = nextDate };
+
+                be.IsNext = isNext;
+                isNext = false;
 
                 // create a list of those listed as not participating 
                 be.NotParticipating = (from np in _participants

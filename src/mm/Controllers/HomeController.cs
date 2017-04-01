@@ -23,35 +23,44 @@ namespace mm.Controllers
 
         [HttpGet("/")]
         [HttpGet("Home")]
-        public IActionResult Index() 
+        public async Task<IActionResult> Index()
         {
-            if (!b.AuthenticateUser(User.Identity.Name))
+            if (!await b.AuthenticateUser(User.Identity.Name))
                 return RedirectToAction("NewUser");
 
-            return View(b.CreateEventList(3,18));
+            return View(b.CreateEventList(3, 18));
         }
 
         [HttpGet("ChangeStatus/{when}/{id}/{status}")]
-        public IActionResult ChangeStatus(string when, string id, string status)
+        public async Task<IActionResult> ChangeStatus(string when, string id, string status)
         {
-            if (!b.AuthenticateUser(User.Identity.Name))
-                return NewUser();
+            if (!await b.AuthenticateUser(User.Identity.Name))
+                return RedirectToAction("NewUser");
 
-            if (id != null)
+            try
             {
                 var p = new Participant(when, id, status);
 
-                if (p.When < DateTime.Today)
-                {
-                    return View("Index",b.CreateEventList(3, 18, errorMessage: "Sorry, your page is no longer valid... Please try again"));
-                }
+                var person = await _ds.GetPerson(p.PersonId);
+
+                if (p.When < DateTime.UtcNow.Date || p.When.ToLocalTime().DayOfWeek != b.Team.EventDay)
+                    throw new Exception($"{p.When} is in the past or wrong day");
+
+                if (person == null || person.TeamId != b.User.TeamId)
+                    throw new Exception($"{id} not found or is in another team");
 
                 b.ChangeParticipation(p);
 
-                _ds.Log($"{b.User.Id} changed {p.PersonId} {p.When.ToString("yyyy-MM-dd")} {p.Participating}");
-            }
+                await _ds.Log($"{b.User.Id} changed {p.PersonId} {p.When.ToString("yyyy-MM-dd")} {p.Participating}");
 
-            return RedirectToAction("Index");
+                return RedirectToAction("Index");
+
+            }
+            catch (Exception ex)
+            {
+                await _ds.Log($"{b.User.Id} send bad data in a ChangeStatus request [{when}/{id}/{status}: {ex.Message}]");
+                return View("Error", new ErrorModel("Something went wrong...\nThe error is loggged and someone might look into it..."));
+            }
         }
 
         private IList<SelectListItem> GetTeams()
@@ -79,7 +88,7 @@ namespace mm.Controllers
             {
                 if (!ModelState.IsValid)
                 {
-                    model.Teams =GetTeams();
+                    model.Teams = GetTeams();
                     return View(model);
                 }
 
@@ -104,13 +113,13 @@ namespace mm.Controllers
             foreach (var t in teams)
             {
                 b.User = new Person { TeamId = t.Id };
-                var evt = b.CreateEventList(0, 1, reloadTeam : true);
+                var evt = b.CreateEventList(0, 1, reloadTeam: true);
             }
 
             return Ok();
         }
 
-        public IActionResult Error()
+        public IActionResult Error(string errorMessage)
         {
             return View();
         }
