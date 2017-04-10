@@ -26,10 +26,10 @@
 
 
 <div class="row">
-    <div class="col-xs-1">Date</div>
-    <div class="col-xs-1">Buyer</div>
-    <div class="col-xs-7">Participating</div>
-    <div class="col-xs-3">OOO</div>
+    <div class="col-md-1">Date</div>
+    <div class="col-md-1">Buyer</div>
+    <div class="col-md-7">Participating</div>
+    <div class="col-md-3">OOO</div>
 </div>
 
 @foreach (var breakfast in Model.Breakfasts)
@@ -38,15 +38,15 @@
     var hightlight = breakfast.IsNext ? "success" : "";
 
     <div class="row">
-        <div class="col-xs-1">
+        <div class="col-md-1">
             <b>@breakfast.When.ToLocalTime().ToString("dd-MMM")</b>
         </div>
-        <div class="col-xs-1">
+        <div class="col-md-1">
             @if (breakfast.Buying != null)
                 {
                     var buyerClass = breakfast.BuyerStatus == Participation.Buying ? " btn-primary " : "btn-warning ";
                 <div class="dropdown">
-                    <button class="btn btn-xs @buyerClass dropdown-toggle @disabled" type="button" data-toggle="dropdown">
+                    <button class="btn btn-md @buyerClass dropdown-toggle @disabled" type="button" data-toggle="dropdown">
                         @breakfast.Buying.Name
                         <span class="caret"></span>
                     </button>
@@ -60,16 +60,16 @@
                 </div>
             }
         </div>
-        <div class="col-xs-7">
+        <div class="col-md-7">
             @foreach (var p in breakfast.Participating)
                 {
-                @Html.ActionLink(p.Name, "ChangeStatus", "Home", routeValues: breakfast.RouteValue(p, Participation.Participating), htmlAttributes: new { @class = $"btn btn-xs btn-success {disabled}", @role = "button" })
+                @Html.ActionLink(p.Name, "ChangeStatus", "Home", routeValues: breakfast.RouteValue(p, Participation.Participating), htmlAttributes: new { @class = $"btn btn-md btn-success {disabled}", @role = "button" })
             }
         </div>
-        <div class="col-xs-3">
+        <div class="col-md-3">
             @foreach (var p in breakfast.NotParticipating)
                 {
-                @Html.ActionLink(p.Name, "ChangeStatus", "Home", routeValues: breakfast.RouteValue(p, Participation.NotParticipating), htmlAttributes: new { @class = $"btn btn-xs btn-danger {disabled}", @role = "button" })
+                @Html.ActionLink(p.Name, "ChangeStatus", "Home", routeValues: breakfast.RouteValue(p, Participation.NotParticipating), htmlAttributes: new { @class = $"btn btn-md btn-danger {disabled}", @role = "button" })
             }
         </div>
     </div>
