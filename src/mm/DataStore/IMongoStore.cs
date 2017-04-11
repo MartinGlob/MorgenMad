@@ -19,5 +19,8 @@ namespace mm.DataStore
         Task AddPerson(Person p);
         Task<ObjectId> UpdateTeam(Team t);
         Task Log(string msg);
+        Task<List<Calendar>> GetCalendars();
+        Task<Calendar> GetCalendar(string id);
+        Task UpdateCalendar(Calendar calendar);
     }
 }
