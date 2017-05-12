@@ -22,7 +22,7 @@ namespace mm.Controllers
         }
 
         [HttpGet("/")]
-        [HttpGet("Home")]
+        //[HttpGet("Home")]
         public async Task<IActionResult> Index()
         {
             if (!await b.AuthenticateUser(User.Identity.Name))
