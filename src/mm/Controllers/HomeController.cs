@@ -19,16 +19,24 @@ namespace mm.Controllers
         {
             _ds = dataStore;
             b = new BreakfastLogic(_ds);
+
+            var cal = new Calendar()
+            {
+                Id = "dk",
+            };
+            cal.Dates.Add("2017-04-13", "Påske");
+            cal.Dates.Add("2017-04-14", "Påske");
+
+            _ds.UpdateCalendar(cal);
         }
 
         [HttpGet("/")]
-        //[HttpGet("Home")]
         public async Task<IActionResult> Index()
         {
             if (!await b.AuthenticateUser(User.Identity.Name))
                 return RedirectToAction("NewUser");
 
-            return View(b.CreateEventList(3, 18));
+            return View(b.CreateEventList(6, 18));
         }
 
         [HttpGet("ChangeStatus/{when}/{id}/{status}")]

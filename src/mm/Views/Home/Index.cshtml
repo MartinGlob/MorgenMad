@@ -5,16 +5,6 @@
     ViewData["Title"] = "Home Page";
 }
 
-<style>
-    [class*="btn"] {
-    margin: 2px;
-    width:65px;
-}
-    .row:hover {
-        background-color:  lightblue;
-    }
-</style>
-
 @if (!string.IsNullOrWhiteSpace(Model.ErrorMessage))
 {
     <div class="container">
@@ -24,53 +14,79 @@
     </div>
 }
 
+<style>
+    .row {
+        padding-top: 4px;
+        padding-bottom: 0px;
+    }
 
-<div class="row">
-    <div class="col-md-1">Date</div>
-    <div class="col-md-1">Buyer</div>
-    <div class="col-md-7">Participating</div>
-    <div class="col-md-3">OOO</div>
-</div>
+    .row:hover {
+        background-color: #f0f0f0;
+    }
 
-@foreach (var breakfast in Model.Breakfasts)
-{
-    var disabled = breakfast.When < DateTime.Now ? " disabled " : "";
-    var hightlight = breakfast.IsNext ? "success" : "";
+    .btn {
+        margin: 0px 2px 4px 2px;
+        width: 65px;
+    }
 
+    .isnextbf {
+        /*background-color: slategrey;*/
+        border-left: thick solid #00ff21;
+    }
+    .notnextbf {
+        /*background-color: slategrey;*/
+        border-left: thick solid #ffffff;
+    }
+</style>
+
+<div class="container-fluid">
     <div class="row">
-        <div class="col-md-1">
-            <b>@breakfast.When.ToLocalTime().ToString("dd-MMM")</b>
-        </div>
-        <div class="col-md-1">
-            @if (breakfast.Buying != null)
+        <div class="col-md-1">Date</div>
+        <div class="col-md-1">Buyer</div>
+        <div class="col-md-7">Participating</div>
+        <div class="col-md-3">OOO</div>
+    </div>
+    @foreach (var breakfast in Model.Breakfasts)
+    {
+        var disabled = breakfast.When < DateTime.Now ? " disabled " : "";
+        var nextbf = breakfast.IsNext ? "isnextbf" : "notnextbf";
+
+        <div class="row @nextbf">
+            <div class="col-md-1">
+                <b>@breakfast.When.ToLocalTime().ToString("dd-MMM")</b>
+            </div>
+            <div class="col-md-1">
+                @if (breakfast.Buying != null)
                 {
                     var buyerClass = breakfast.BuyerStatus == Participation.Buying ? " btn-primary " : "btn-warning ";
-                <div class="dropdown">
-                    <button class="btn btn-md @buyerClass dropdown-toggle @disabled" type="button" data-toggle="dropdown">
-                        @breakfast.Buying.Name
-                        <span class="caret"></span>
-                    </button>
-                    <ul class="dropdown-menu">
-                        <li>@Html.ActionLink($"{breakfast.Buying.Name} is OOO", "ChangeStatus", "Home", routeValues: breakfast.RouteValue(breakfast.Buying, Participation.Buying))</li>
-                        @foreach (var p in breakfast.Participating)
-                        {
-                            <li>@Html.ActionLink(p.Name, "ChangeStatus", "Home", routeValues: breakfast.RouteValue(p, Participation.Override))</li>
-                        }
-                    </ul>
-                </div>
-            }
-        </div>
-        <div class="col-md-7">
-            @foreach (var p in breakfast.Participating)
+                    <div class="dropdown">
+                        <button class="btn btn-sm @buyerClass dropdown-toggle @disabled" type="button" data-toggle="dropdown">
+                            @breakfast.Buying.Name
+                            <span class="caret"></span>
+                        </button>
+                        <ul class="dropdown-menu">
+                            <li>@Html.ActionLink($"{breakfast.Buying.Name} is OOO", "ChangeStatus", "Home", routeValues: breakfast.RouteValue(breakfast.Buying, Participation.Buying))</li>
+                            @foreach (var p in breakfast.Participating)
+                            {
+                                <li>@Html.ActionLink(p.Name, "ChangeStatus", "Home", routeValues: breakfast.RouteValue(p, Participation.Override))</li>
+                            }
+                        </ul>
+                    </div>
+                }
+            </div>
+            <div class="col-md-7">
+                @foreach (var p in breakfast.Participating)
                 {
-                @Html.ActionLink(p.Name, "ChangeStatus", "Home", routeValues: breakfast.RouteValue(p, Participation.Participating), htmlAttributes: new { @class = $"btn btn-md btn-success {disabled}", @role = "button" })
-            }
-        </div>
-        <div class="col-md-3">
-            @foreach (var p in breakfast.NotParticipating)
+                    @Html.ActionLink(p.Name, "ChangeStatus", "Home", routeValues: breakfast.RouteValue(p, Participation.Participating), htmlAttributes: new { @class = $"btn btn-sm btn-success{disabled}", @role = "button" })
+                }
+            </div>
+            <div class="col-md-3">
+                @foreach (var p in breakfast.NotParticipating)
                 {
-                @Html.ActionLink(p.Name, "ChangeStatus", "Home", routeValues: breakfast.RouteValue(p, Participation.NotParticipating), htmlAttributes: new { @class = $"btn btn-md btn-danger {disabled}", @role = "button" })
-            }
+                    @Html.ActionLink(p.Name, "ChangeStatus", "Home", routeValues: breakfast.RouteValue(p, Participation.NotParticipating), htmlAttributes: new { @class = $"btn btn-sm btn-danger{disabled}", @role = "button" })
+                }
+            </div>
         </div>
-    </div>
-}
+    }
+</div>
+

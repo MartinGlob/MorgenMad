@@ -18,6 +18,7 @@ namespace mm.DataStore
         IMongoCollection<Participant> _participants;
         IMongoCollection<Person> _persons;
         IMongoCollection<LogItem> _log;
+        IMongoCollection<Calendar> _calendars;
 
         public MongoStore(string connectionString)
         {
@@ -33,6 +34,8 @@ namespace mm.DataStore
             _persons.Indexes.CreateOneAsync(Builders<Person>.IndexKeys.Ascending(_ => _.Name), new CreateIndexOptions { Unique = true });
 
             _log = _db.GetCollection<LogItem>("Log");
+
+            _calendars = _db.GetCollection<Calendar>("Calendars");
         }
 
         public async void ClearAll()
@@ -143,6 +146,29 @@ namespace mm.DataStore
         public async Task Log(string msg)
         {
             await _log.InsertOneAsync(new LogItem { Msg = msg });
+        }
+
+        public async Task<List<Calendar>> GetCalendars()
+        {
+            return await _calendars.Find(_ => true).ToListAsync();
+        }
+
+        public async Task<Calendar> GetCalendar(string id)
+        {
+            return await _calendars.Find(t => t.Id == id).FirstOrDefaultAsync();
+
+        }
+
+        public async Task UpdateCalendar(Calendar calendar)
+        {
+            try
+            {
+                var r = await _calendars.ReplaceOneAsync(c => c.Id == calendar.Id, calendar, new UpdateOptions { IsUpsert = true });
+            }
+            catch (Exception ex)
+            {
+                int i = 0;
+            }
         }
     }
 }

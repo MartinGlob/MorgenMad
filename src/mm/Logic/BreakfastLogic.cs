@@ -17,6 +17,7 @@ namespace mm.Logic
 
         public Person User { get; set; }
         public Team Team { get; set; }
+        public Calendar Calendar{ get; set; }
 
         public BreakfastLogic(IMongoStore db)
         {
@@ -60,6 +61,7 @@ namespace mm.Logic
                 if (User != null)
                 {
                     Team = await _ds.GetTeam(User.TeamId);
+                    Calendar = await _ds.GetCalendar(Team.CalendarId);
                 }
             }
             return User != null;
