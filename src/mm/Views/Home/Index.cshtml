@@ -37,6 +37,9 @@
         /*background-color: slategrey;*/
         border-left: thick solid #ffffff;
     }
+    .notexactdate {
+       background-color: #ffd800;
+    }
 </style>
 
 <div class="container-fluid">
@@ -50,9 +53,10 @@
     {
         var disabled = breakfast.When < DateTime.Now ? " disabled " : "";
         var nextbf = breakfast.IsNext ? "isnextbf" : "notnextbf";
+        var ismoved = string.IsNullOrEmpty(breakfast.MovedReason) ? "" : "notexactdate";
 
         <div class="row @nextbf">
-            <div class="col-md-1">
+            <div class="col-md-1 @ismoved" data-toggle="tooltip" title="@breakfast.MovedReason">
                 <b>@breakfast.When.ToLocalTime().ToString("dd-MMM")</b>
             </div>
             <div class="col-md-1">
@@ -89,4 +93,9 @@
         </div>
     }
 </div>
+<script>
+$(document).ready(function(){
+    $('[data-toggle="tooltip"]').tooltip();
+});
+</script>
 

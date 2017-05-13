@@ -17,14 +17,16 @@ namespace mm.Logic
 
         public Person User { get; set; }
         public Team Team { get; set; }
-        public Calendar Calendar{ get; set; }
+        public Calendar Calendar { get; set; }
 
         public BreakfastLogic(IMongoStore db)
         {
             _ds = db;
         }
 
-        private List<Person> _persons { get
+        private List<Person> _persons
+        {
+            get
             {
                 if (_personsf == null)
                 {
@@ -57,6 +59,9 @@ namespace mm.Logic
             {
                 // split domain/userid
                 var parts = WindowsUser.Split('\\');
+                //todo this a really a hack
+                if (parts[1] == "Martin")
+                    parts[1] = "bb7140";
                 User = _ds.GetPerson(parts[1]).Result;
                 if (User != null)
                 {
@@ -120,7 +125,7 @@ namespace mm.Logic
             if (numberOfPreviousWeeks > 0)
             {
                 var fromDate = DateTime.Now.AddDays(-7 * numberOfPreviousWeeks);
-                var oldEventDates = (from p in _participants where p.When >= fromDate && p.When < nextDate select p.When).Distinct().ToList();
+                var oldEventDates = (from p in _participants orderby p.When where p.When >= fromDate && p.When < nextDate select p.When).Distinct().ToList();
 
                 foreach (var breakfastDate in oldEventDates)
                 {
@@ -155,7 +160,18 @@ namespace mm.Logic
 
             for (var i = 1; i <= numberOfWeeksToShow; i++)
             {
-                var be = new Breakfast { When = nextDate };
+                var actualDate = nextDate;
+                var reasons = new List<string>();
+                var reason = "";
+                while ((reason = Calendar.ContainsDate(actualDate)) != null)
+                {
+                    actualDate = actualDate.AddDays(-1);
+                    reasons.Add(reason);
+                }
+
+                var be = new Breakfast { When = actualDate };
+
+                be.MovedReason = !reasons.Any() ? "": $"Moved from {nextDate.ToLocalTime().ToString("yyyy-MM-dd")} to {actualDate.ToLocalTime().ToString("yyyy-MM-dd")} because of {string.Join(", ",reasons)}";
 
                 be.IsNext = isNext;
                 isNext = false;

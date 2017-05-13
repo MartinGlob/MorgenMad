@@ -15,5 +15,14 @@ namespace mm.Models
         {
             Dates = new Dictionary<string, string>();
         }
+
+        public string ContainsDate(DateTime utc)
+        {
+            var key = utc.ToLocalTime().ToString("yyyy-MM-dd");
+            if (Dates.ContainsKey(key))
+                return Dates[key];
+            else
+                return null;
+        }
     }
 }

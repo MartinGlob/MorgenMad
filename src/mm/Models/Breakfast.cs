@@ -7,6 +7,7 @@ namespace mm.Models
     {
         public DateTime When { get; set; }
         public bool Skipped { get; set; }
+        public string MovedReason { get; set; }
         public bool IsNext { get; set; }
         public string WhenDisplay { get; set; }
         public Person Buying { get; set; }
