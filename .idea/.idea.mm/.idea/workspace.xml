@@ -2,17 +2,11 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="2619bc69-0843-496f-bf2f-33933ec0f505" name="Default" comment="">
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/.idea/.idea.mm/.idea/contentModel.xml" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/.idea/.idea.mm/.idea/modules.xml" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/.idea/.idea.mm/.idea/vcs.xml" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/.idea/.idea.mm/riderModule.iml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/mm.sln" afterPath="$PROJECT_DIR$/mm.sln" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/Tests/MongoTest.cs" afterPath="$PROJECT_DIR$/src/Tests/MongoTest.cs" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/Tests/Tests.csproj" afterPath="$PROJECT_DIR$/src/Tests/Tests.csproj" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/mm/Controllers/HomeController.cs" afterPath="$PROJECT_DIR$/src/mm/Controllers/HomeController.cs" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/mm/DataStore/IMongoStore.cs" afterPath="$PROJECT_DIR$/src/mm/DataStore/IMongoStore.cs" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/mm/DataStore/MongoStore.cs" afterPath="$PROJECT_DIR$/src/mm/DataStore/MongoStore.cs" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/src/mm/Dockerfile" afterPath="" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/.idea.mm/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/.idea.mm/.idea/workspace.xml" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/.idea.mm/riderModule.iml" afterPath="$PROJECT_DIR$/.idea/.idea.mm/riderModule.iml" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/mm/Logic/BreakfastLogic.cs" afterPath="$PROJECT_DIR$/src/mm/Logic/BreakfastLogic.cs" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/mm/Models/Calendar.cs" afterPath="$PROJECT_DIR$/src/mm/Models/Calendar.cs" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/mm/mm.csproj" afterPath="$PROJECT_DIR$/src/mm/mm.csproj" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
@@ -25,18 +19,44 @@
   <component name="ExecutionTargetManager" SELECTED_TARGET="default_target" />
   <component name="FileEditorManager">
     <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
-      <file leaf-file-name="MongoTest.cs" pinned="false" current-in-tab="true">
-        <entry file="file://$PROJECT_DIR$/src/Tests/MongoTest.cs">
+      <file leaf-file-name="BreakfastLogic.cs" pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/src/mm/Logic/BreakfastLogic.cs">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="293">
-              <caret line="85" column="0" lean-forward="true" selection-start-line="85" selection-start-column="0" selection-end-line="85" selection-end-column="0" />
+            <state relative-caret-position="235">
+              <caret line="169" column="17" lean-forward="true" selection-start-line="169" selection-start-column="17" selection-end-line="169" selection-end-column="17" />
               <folding>
-                <marker date="1489329531717" expanded="true" signature="6:83" ph="..." />
-                <marker date="1489329531717" expanded="true" signature="100:5646" ph="{...}" />
-                <marker date="1489329531717" expanded="true" signature="129:5644" ph="{...}" />
-                <marker date="1489329531717" expanded="true" signature="193:1200" ph="{...}" />
-                <marker date="1489329531717" expanded="true" signature="577:1190" ph="/* var dt1 = t.Persons[0].Created.ToLocalTime(); ... */" />
-                <marker date="1489329531717" expanded="true" signature="1257:5638" ph="{...}" />
+                <marker date="1494711013947" expanded="false" signature="6:179" ph="..." />
+                <marker date="1494711013947" expanded="true" signature="199:9285" ph="{...}" />
+                <marker date="1494711013947" expanded="true" signature="233:9283" ph="{...}" />
+                <marker date="1494711013947" expanded="true" signature="513:555" ph="{...}" />
+                <marker date="1494711013947" expanded="true" signature="594:976" ph="{...}" />
+                <marker date="1494711013947" expanded="true" signature="620:966" ph="{...}" />
+                <marker date="1494711013947" expanded="true" signature="673:918" ph="{...}" />
+                <marker date="1494711013947" expanded="true" signature="1025:1432" ph="{...}" />
+                <marker date="1494711013947" expanded="true" signature="1051:1422" ph="{...}" />
+                <marker date="1494711013947" expanded="true" signature="1109:1369" ph="{...}" />
+                <marker date="1494711013947" expanded="true" signature="1528:2140" ph="{...}" />
+                <marker date="1494711013947" expanded="true" signature="1595:2097" ph="{...}" />
+                <marker date="1494711013947" expanded="true" signature="1917:2083" ph="{...}" />
+                <marker date="1494711013947" expanded="true" signature="2187:3378" ph="{...}" />
+                <marker date="1494711013947" expanded="true" signature="3037:3198" ph="/* those who never gave, should give after the next in line ... */" />
+                <marker date="1494711013947" expanded="true" signature="3530:8888" ph="{...}" />
+                <marker date="1494711013947" expanded="true" signature="3568:3670" ph="{...}" />
+                <marker date="1494711013947" expanded="true" signature="3775:3853" ph="{...}" />
+                <marker date="1494711013947" expanded="true" signature="4154:5735" ph="{...}" />
+                <marker date="1494711013947" expanded="true" signature="4469:5721" ph="{...}" />
+                <marker date="1494711013947" expanded="true" signature="4813:4934" ph="{...}" />
+                <marker date="1494711013947" expanded="true" signature="5883:8852" ph="{...}" />
+                <marker date="1494711013947" expanded="true" signature="6076:6210" ph="{...}" />
+                <marker date="1494711013947" expanded="true" signature="7430:7562" ph="{...}" />
+                <marker date="1494711013947" expanded="true" signature="7583:8189" ph="{...}" />
+                <marker date="1494711013947" expanded="true" signature="7746:8171" ph="{...}" />
+                <marker date="1494711013947" expanded="true" signature="7896:7983" ph="{...}" />
+                <marker date="1494711013947" expanded="true" signature="8229:8541" ph="{...}" />
+                <marker date="1494711013947" expanded="true" signature="8562:8747" ph="{...}" />
+                <marker date="1494711013947" expanded="true" signature="8945:9038" ph="{...}" />
+                <marker date="1494711013947" expanded="true" signature="9096:9222" ph="{...}" />
+                <marker date="1494711013947" expanded="true" signature="9256:9277" ph="{...}" />
               </folding>
             </state>
           </provider>
@@ -54,6 +74,12 @@
         <option value="$PROJECT_DIR$/src/Tests/MongoTest.cs" />
       </list>
     </option>
+  </component>
+  <component name="JsBuildToolGruntFileManager" detection-done="true" sorting="DEFINITION_ORDER" />
+  <component name="JsBuildToolPackageJson" detection-done="true" sorting="DEFINITION_ORDER" />
+  <component name="JsGulpfileManager">
+    <detection-done>true</detection-done>
+    <sorting>DEFINITION_ORDER</sorting>
   </component>
   <component name="ProjectFrameBounds">
     <option name="x" value="-8" />
@@ -91,10 +117,6 @@
               <option name="myItemType" value="com.jetbrains.resharper.projectView.solutionExplorer.SolutionExplorerNodeRider" />
             </PATH_ELEMENT>
             <PATH_ELEMENT>
-              <option name="myItemId" value="src" />
-              <option name="myItemType" value="com.jetbrains.resharper.projectView.solutionExplorer.SolutionExplorerNodeRider" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
               <option name="myItemId" value="Tests" />
               <option name="myItemType" value="com.jetbrains.resharper.projectView.solutionExplorer.SolutionExplorerNodeRider" />
             </PATH_ELEMENT>
@@ -126,14 +148,64 @@
               <option name="myItemId" value="mm (2 projects)" />
               <option name="myItemType" value="com.jetbrains.resharper.projectView.solutionExplorer.SolutionExplorerNodeRider" />
             </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="src" />
+              <option name="myItemType" value="com.jetbrains.resharper.projectView.solutionExplorer.SolutionExplorerNodeRider" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="mm" />
+              <option name="myItemType" value="com.jetbrains.resharper.projectView.solutionExplorer.SolutionExplorerNodeRider" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="Logic" />
+              <option name="myItemType" value="com.jetbrains.resharper.projectView.solutionExplorer.SolutionExplorerNodeRider" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" />
+              <option name="myItemType" value="com.jetbrains.resharper.projectView.solutionExplorer.SolutionExplorerViewPane$ProjectViewPaneTreeStructure$createRoot$1" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="mm (2 projects)" />
+              <option name="myItemType" value="com.jetbrains.resharper.projectView.solutionExplorer.SolutionExplorerNodeRider" />
+            </PATH_ELEMENT>
           </PATH>
         </subPane>
         <option name="show-file-system" value="false" />
         <option name="show-all-items" value="false" />
       </pane>
+      <pane id="Scratches" />
     </panes>
   </component>
-  <component name="RunManager" selected=".NET Project.Default">
+  <component name="PropertiesComponent">
+    <property name="WebServerToolWindowFactoryState" value="false" />
+  </component>
+  <component name="RunDashboard">
+    <option name="ruleStates">
+      <list>
+        <RuleState>
+          <option name="name" value="ConfigurationTypeDashboardGroupingRule" />
+        </RuleState>
+        <RuleState>
+          <option name="name" value="StatusDashboardGroupingRule" />
+        </RuleState>
+      </list>
+    </option>
+  </component>
+  <component name="RunManager" selected=".NET Project.src\mm">
+    <configuration default="false" name="src\mm" type="DotNetProject" factoryName=".NET Project" temporary="true">
+      <option name="PROJECT_PATH" value="$PROJECT_DIR$/src/mm/mm.csproj" />
+      <option name="PROJECT_KIND" value="Web" />
+      <option name="PROJECT_TFM" value=".NETCoreApp,Version=v1.1" />
+      <option name="EXE_PATH" value="C:/Program Files/IIS Express/iisexpress.exe" />
+      <option name="PROGRAM_PARAMETERS" value="/config:$PROJECT_DIR$/.idea/config/applicationhost.config /site:mm /apppool:Clr4IntegratedAppPool" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/src/mm/bin/Debug" />
+      <option name="USE_MONO" value="0" />
+      <option name="USE_EXTERNAL_CONSOLE" value="0" />
+      <envs />
+      <method />
+    </configuration>
     <configuration default="true" type="DotNetProject" factoryName=".NET Project">
       <option name="PROJECT_PATH" value="" />
       <option name="PROJECT_KIND" value="None" />
@@ -146,24 +218,69 @@
       <envs />
       <method />
     </configuration>
-    <configuration default="false" name="Default" type="DotNetProject" factoryName=".NET Project">
-      <option name="PROJECT_PATH" value="$PROJECT_DIR$/src/mm/mm.csproj" />
-      <option name="PROJECT_KIND" value="DotNetCore" />
-      <option name="PROJECT_TFM" value=".NETCoreApp,Version=v1.0" />
-      <option name="EXE_PATH" value="$PROJECT_DIR$/src/mm/bin/Debug/netcoreapp1.0/mm.exe" />
-      <option name="PROGRAM_PARAMETERS" value="" />
-      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/src/mm" />
-      <option name="USE_MONO" value="0" />
-      <option name="USE_EXTERNAL_CONSOLE" value="0" />
-      <envs>
-        <env name="ASPNETCORE_ENVIRONMENT" value="Production" />
-        <env name="ASPNETCORE_URLS" value="http://localhost:5000" />
-      </envs>
+    <configuration default="true" type="JavaScriptTestRunnerJest" factoryName="Jest">
+      <node-interpreter value="project" />
+      <working-dir value="" />
+      <envs />
+      <scope-kind value="ALL" />
       <method />
     </configuration>
-    <list size="1">
+    <configuration default="true" type="JavaScriptTestRunnerProtractor" factoryName="Protractor">
+      <config-file value="" />
+      <node-interpreter value="project" />
+      <envs />
+      <method />
+    </configuration>
+    <configuration default="true" type="JavascriptDebugType" factoryName="JavaScript Debug">
+      <method />
+    </configuration>
+    <configuration default="true" type="NodeJSConfigurationType" factoryName="Node.js" path-to-node="project" working-dir="">
+      <method />
+    </configuration>
+    <configuration default="true" type="js.build_tools.gulp" factoryName="Gulp.js">
+      <method />
+    </configuration>
+    <configuration default="true" type="js.build_tools.npm" factoryName="npm">
+      <command value="run" />
+      <scripts />
+      <node-interpreter value="project" />
+      <envs />
+      <method />
+    </configuration>
+    <configuration default="true" type="mocha-javascript-test-runner" factoryName="Mocha">
+      <node-interpreter>project</node-interpreter>
+      <node-options />
+      <working-directory />
+      <pass-parent-env>true</pass-parent-env>
+      <envs />
+      <ui />
+      <extra-mocha-options />
+      <test-kind>DIRECTORY</test-kind>
+      <test-directory />
+      <recursive>false</recursive>
+      <method />
+    </configuration>
+    <configuration default="false" name="Default" type="DotNetProject" factoryName=".NET Project">
+      <option name="PROJECT_PATH" value="$PROJECT_DIR$/Tests/Tests.csproj" />
+      <option name="PROJECT_KIND" value="Console" />
+      <option name="PROJECT_TFM" value=".NETCoreApp,Version=v1.1" />
+      <option name="EXE_PATH" value="$PROJECT_DIR$/Tests/bin/Debug/netcoreapp1.1/Tests.dll" />
+      <option name="PROGRAM_PARAMETERS" value="" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/Tests" />
+      <option name="USE_MONO" value="0" />
+      <option name="USE_EXTERNAL_CONSOLE" value="0" />
+      <envs />
+      <method />
+    </configuration>
+    <list size="2">
       <item index="0" class="java.lang.String" itemvalue=".NET Project.Default" />
+      <item index="1" class="java.lang.String" itemvalue=".NET Project.src\mm" />
     </list>
+    <recent_temporary>
+      <list size="1">
+        <item index="0" class="java.lang.String" itemvalue=".NET Project.src\mm" />
+      </list>
+    </recent_temporary>
   </component>
   <component name="RuntimeDashboard">
     <option name="ruleStates">
@@ -189,11 +306,12 @@
       <updated>1489327155221</updated>
       <workItem from="1489327159359" duration="1420000" />
       <workItem from="1489329002084" duration="534000" />
+      <workItem from="1494711859364" duration="443000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="1954000" />
+    <option name="totallyTimeSpent" value="2397000" />
   </component>
   <component name="TodoView">
     <todo-panel id="selected-file">
@@ -209,27 +327,31 @@
     <layout>
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
       <window_info id="Errors In Solution" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.329429" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
-      <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.329653" sideWeight="0.5029542" order="7" side_tool="true" content_ui="tabs" />
-      <window_info id="Unit Tests" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.329653" sideWeight="0.4970458" order="7" side_tool="false" content_ui="tabs" />
-      <window_info id="Run Dashboard" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
+      <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.329653" sideWeight="0.5059084" order="7" side_tool="true" content_ui="tabs" />
+      <window_info id="Unit Tests" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.329653" sideWeight="0.49409157" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
-      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
+      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.329653" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="NuGet" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Change Signature" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="7" side_tool="true" content_ui="tabs" />
       <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.24298376" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
       <window_info id="Build" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
+      <window_info id="Inspection Results" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="-1" side_tool="false" content_ui="tabs" />
       <window_info id="Database" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.4" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Cvs" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
       <window_info id="Message" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
       <window_info id="Commander" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.4" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
+      <window_info id="Run Dashboard" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Inspection" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.4" sideWeight="0.5" order="5" side_tool="false" content_ui="tabs" />
       <window_info id="Hierarchy" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="2" side_tool="false" content_ui="combo" />
       <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Ant Build" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
     </layout>
+  </component>
+  <component name="TypeScriptGeneratedFilesManager">
+    <option name="processedProjectFiles" value="true" />
   </component>
   <component name="VcsContentAnnotationSettings">
     <option name="myLimit" value="2678400000" />
@@ -240,7 +362,7 @@
         <line-breakpoint enabled="true" type="DotNet Breakpoints">
           <url>file://$PROJECT_DIR$/src/Tests/MongoTest.cs</url>
           <line>41</line>
-          <properties startOffset="1345" endOffset="1434" documentPath="$PROJECT_DIR$/src/Tests/MongoTest.cs" />
+          <properties />
           <option name="timeStamp" value="1" />
         </line-breakpoint>
       </breakpoints>
@@ -254,68 +376,80 @@
         <state relative-caret-position="0">
           <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
           <folding>
-            <marker date="1489328574507" expanded="true" signature="6:179" ph="..." />
-            <marker date="1489328574507" expanded="true" signature="199:5617" ph="{...}" />
-            <marker date="1489328574507" expanded="true" signature="233:5615" ph="{...}" />
-            <marker date="1489328574507" expanded="true" signature="410:528" ph="{...}" />
-            <marker date="1489328574507" expanded="true" signature="563:638" ph="{...}" />
-            <marker date="1489328574507" expanded="true" signature="678:763" ph="{...}" />
-            <marker date="1489328574507" expanded="true" signature="827:1099" ph="{...}" />
-            <marker date="1489328574507" expanded="true" signature="914:1063" ph="{...}" />
-            <marker date="1489328574507" expanded="true" signature="1144:1707" ph="{...}" />
-            <marker date="1489328574507" expanded="true" signature="1773:5220" ph="{...}" />
-            <marker date="1489328574507" expanded="true" signature="2343:3471" ph="{...}" />
-            <marker date="1489328574507" expanded="true" signature="2671:2776" ph="{...}" />
-            <marker date="1489328574507" expanded="true" signature="3513:5184" ph="{...}" />
-            <marker date="1489328574507" expanded="true" signature="4323:4423" ph="{...}" />
-            <marker date="1489328574507" expanded="true" signature="4463:4963" ph="{...}" />
-            <marker date="1489328574507" expanded="true" signature="4984:5079" ph="{...}" />
-            <marker date="1489328574507" expanded="true" signature="5277:5370" ph="{...}" />
-            <marker date="1489328574507" expanded="true" signature="5428:5554" ph="{...}" />
-            <marker date="1489328574507" expanded="true" signature="5588:5609" ph="{...}" />
+            <marker date="1494711013947" expanded="false" signature="6:179" ph="..." />
+            <marker date="1494711013947" expanded="true" signature="199:9285" ph="{...}" />
+            <marker date="1494711013947" expanded="true" signature="233:9283" ph="{...}" />
+            <marker date="1494711013947" expanded="true" signature="513:555" ph="{...}" />
+            <marker date="1494711013947" expanded="true" signature="594:976" ph="{...}" />
+            <marker date="1494711013947" expanded="true" signature="620:966" ph="{...}" />
+            <marker date="1494711013947" expanded="true" signature="673:918" ph="{...}" />
+            <marker date="1494711013947" expanded="true" signature="1025:1432" ph="{...}" />
+            <marker date="1494711013947" expanded="true" signature="1051:1422" ph="{...}" />
+            <marker date="1494711013947" expanded="true" signature="1109:1369" ph="{...}" />
+            <marker date="1494711013947" expanded="true" signature="1528:2140" ph="{...}" />
+            <marker date="1494711013947" expanded="true" signature="1595:2097" ph="{...}" />
+            <marker date="1494711013947" expanded="true" signature="1917:2083" ph="{...}" />
+            <marker date="1494711013947" expanded="true" signature="2187:3378" ph="{...}" />
+            <marker date="1494711013947" expanded="true" signature="3037:3198" ph="/* those who never gave, should give after the next in line ... */" />
+            <marker date="1494711013947" expanded="true" signature="3530:8888" ph="{...}" />
+            <marker date="1494711013947" expanded="true" signature="3568:3670" ph="{...}" />
+            <marker date="1494711013947" expanded="true" signature="3775:3853" ph="{...}" />
+            <marker date="1494711013947" expanded="true" signature="4154:5735" ph="{...}" />
+            <marker date="1494711013947" expanded="true" signature="4469:5721" ph="{...}" />
+            <marker date="1494711013947" expanded="true" signature="4813:4934" ph="{...}" />
+            <marker date="1494711013947" expanded="true" signature="5883:8852" ph="{...}" />
+            <marker date="1494711013947" expanded="true" signature="6076:6210" ph="{...}" />
+            <marker date="1494711013947" expanded="true" signature="7430:7562" ph="{...}" />
+            <marker date="1494711013947" expanded="true" signature="7583:8189" ph="{...}" />
+            <marker date="1494711013947" expanded="true" signature="7746:8171" ph="{...}" />
+            <marker date="1494711013947" expanded="true" signature="7896:7983" ph="{...}" />
+            <marker date="1494711013947" expanded="true" signature="8229:8541" ph="{...}" />
+            <marker date="1494711013947" expanded="true" signature="8562:8747" ph="{...}" />
+            <marker date="1494711013947" expanded="true" signature="8945:9038" ph="{...}" />
+            <marker date="1494711013947" expanded="true" signature="9096:9222" ph="{...}" />
+            <marker date="1494711013947" expanded="true" signature="9256:9277" ph="{...}" />
           </folding>
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/src/Tests/MongoTest.cs" />
     <entry file="file://$PROJECT_DIR$/src/mm/Logic/BreakfastLogic.cs">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="60">
-          <caret line="106" column="40" lean-forward="false" selection-start-line="106" selection-start-column="40" selection-end-line="106" selection-end-column="40" />
+        <state relative-caret-position="235">
+          <caret line="169" column="17" lean-forward="true" selection-start-line="169" selection-start-column="17" selection-end-line="169" selection-end-column="17" />
           <folding>
-            <marker date="1489328574507" expanded="true" signature="6:179" ph="..." />
-            <marker date="1489328574507" expanded="true" signature="199:5617" ph="{...}" />
-            <marker date="1489328574507" expanded="true" signature="233:5615" ph="{...}" />
-            <marker date="1489328574507" expanded="true" signature="410:528" ph="{...}" />
-            <marker date="1489328574507" expanded="true" signature="563:638" ph="{...}" />
-            <marker date="1489328574507" expanded="true" signature="678:763" ph="{...}" />
-            <marker date="1489328574507" expanded="true" signature="827:1099" ph="{...}" />
-            <marker date="1489328574507" expanded="true" signature="914:1063" ph="{...}" />
-            <marker date="1489328574507" expanded="true" signature="1144:1707" ph="{...}" />
-            <marker date="1489328574507" expanded="true" signature="1773:5220" ph="{...}" />
-            <marker date="1489328574507" expanded="true" signature="2343:3471" ph="{...}" />
-            <marker date="1489328574507" expanded="true" signature="2671:2776" ph="{...}" />
-            <marker date="1489328574507" expanded="true" signature="3513:5184" ph="{...}" />
-            <marker date="1489328574507" expanded="true" signature="4323:4423" ph="{...}" />
-            <marker date="1489328574507" expanded="true" signature="4463:4963" ph="{...}" />
-            <marker date="1489328574507" expanded="true" signature="4984:5079" ph="{...}" />
-            <marker date="1489328574507" expanded="true" signature="5277:5370" ph="{...}" />
-            <marker date="1489328574507" expanded="true" signature="5428:5554" ph="{...}" />
-            <marker date="1489328574507" expanded="true" signature="5588:5609" ph="{...}" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/Tests/MongoTest.cs">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="293">
-          <caret line="85" column="0" lean-forward="true" selection-start-line="85" selection-start-column="0" selection-end-line="85" selection-end-column="0" />
-          <folding>
-            <marker date="1489329531717" expanded="true" signature="6:83" ph="..." />
-            <marker date="1489329531717" expanded="true" signature="100:5646" ph="{...}" />
-            <marker date="1489329531717" expanded="true" signature="129:5644" ph="{...}" />
-            <marker date="1489329531717" expanded="true" signature="193:1200" ph="{...}" />
-            <marker date="1489329531717" expanded="true" signature="577:1190" ph="/* var dt1 = t.Persons[0].Created.ToLocalTime(); ... */" />
-            <marker date="1489329531717" expanded="true" signature="1257:5638" ph="{...}" />
+            <marker date="1494711013947" expanded="false" signature="6:179" ph="..." />
+            <marker date="1494711013947" expanded="true" signature="199:9285" ph="{...}" />
+            <marker date="1494711013947" expanded="true" signature="233:9283" ph="{...}" />
+            <marker date="1494711013947" expanded="true" signature="513:555" ph="{...}" />
+            <marker date="1494711013947" expanded="true" signature="594:976" ph="{...}" />
+            <marker date="1494711013947" expanded="true" signature="620:966" ph="{...}" />
+            <marker date="1494711013947" expanded="true" signature="673:918" ph="{...}" />
+            <marker date="1494711013947" expanded="true" signature="1025:1432" ph="{...}" />
+            <marker date="1494711013947" expanded="true" signature="1051:1422" ph="{...}" />
+            <marker date="1494711013947" expanded="true" signature="1109:1369" ph="{...}" />
+            <marker date="1494711013947" expanded="true" signature="1528:2140" ph="{...}" />
+            <marker date="1494711013947" expanded="true" signature="1595:2097" ph="{...}" />
+            <marker date="1494711013947" expanded="true" signature="1917:2083" ph="{...}" />
+            <marker date="1494711013947" expanded="true" signature="2187:3378" ph="{...}" />
+            <marker date="1494711013947" expanded="true" signature="3037:3198" ph="/* those who never gave, should give after the next in line ... */" />
+            <marker date="1494711013947" expanded="true" signature="3530:8888" ph="{...}" />
+            <marker date="1494711013947" expanded="true" signature="3568:3670" ph="{...}" />
+            <marker date="1494711013947" expanded="true" signature="3775:3853" ph="{...}" />
+            <marker date="1494711013947" expanded="true" signature="4154:5735" ph="{...}" />
+            <marker date="1494711013947" expanded="true" signature="4469:5721" ph="{...}" />
+            <marker date="1494711013947" expanded="true" signature="4813:4934" ph="{...}" />
+            <marker date="1494711013947" expanded="true" signature="5883:8852" ph="{...}" />
+            <marker date="1494711013947" expanded="true" signature="6076:6210" ph="{...}" />
+            <marker date="1494711013947" expanded="true" signature="7430:7562" ph="{...}" />
+            <marker date="1494711013947" expanded="true" signature="7583:8189" ph="{...}" />
+            <marker date="1494711013947" expanded="true" signature="7746:8171" ph="{...}" />
+            <marker date="1494711013947" expanded="true" signature="7896:7983" ph="{...}" />
+            <marker date="1494711013947" expanded="true" signature="8229:8541" ph="{...}" />
+            <marker date="1494711013947" expanded="true" signature="8562:8747" ph="{...}" />
+            <marker date="1494711013947" expanded="true" signature="8945:9038" ph="{...}" />
+            <marker date="1494711013947" expanded="true" signature="9096:9222" ph="{...}" />
+            <marker date="1494711013947" expanded="true" signature="9256:9277" ph="{...}" />
           </folding>
         </state>
       </provider>

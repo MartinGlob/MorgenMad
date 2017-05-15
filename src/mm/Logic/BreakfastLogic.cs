@@ -18,6 +18,7 @@ namespace mm.Logic
         public Person User { get; set; }
         public Team Team { get; set; }
         public Calendar Calendar { get; set; }
+        public DateTime? LastIGave { get; set; }
 
         public BreakfastLogic(IMongoStore db)
         {
@@ -80,6 +81,8 @@ namespace mm.Logic
                         group n by n.PersonId into g
                         select new { Id = g.Key, When = g.Max(t => t.When) };
 
+            LastIGave = dates.FirstOrDefault(p => p.Id == User.Id)?.When.ToLocalTime();
+
             // convert that to a list of persons
             var who = (from d in dates
                        orderby d.When
@@ -116,6 +119,9 @@ namespace mm.Logic
             {
                 view.ErrorMessage = errorMessage;
             }
+
+           
+
 
             DateTime nextDate = DateTime.Today.ToUniversalTime();
 
@@ -156,14 +162,14 @@ namespace mm.Logic
 
             var next = WhoIsNextList();
 
-            var isNext = true;
+            var reasons = new List<string>();
 
             for (var i = 1; i <= numberOfWeeksToShow; i++)
             {
                 var actualDate = nextDate;
-                var reasons = new List<string>();
+                reasons.Clear();
                 var reason = "";
-                while ((reason = Calendar.ContainsDate(actualDate)) != null)
+                while ((reason = Calendar.DayText(actualDate)) != "")
                 {
                     actualDate = actualDate.AddDays(-1);
                     reasons.Add(reason);
@@ -171,10 +177,9 @@ namespace mm.Logic
 
                 var be = new Breakfast { When = actualDate };
 
-                be.MovedReason = !reasons.Any() ? "": $"Moved from {nextDate.ToLocalTime().ToString("yyyy-MM-dd")} to {actualDate.ToLocalTime().ToString("yyyy-MM-dd")} because of {string.Join(", ",reasons)}";
+                be.MovedReason = !reasons.Any() ? "" : $"Moved from {nextDate.ToLocalTime().ToString("dd")}. to {actualDate.ToLocalTime().ToString("dd")}. because of {string.Join(", ", reasons)}";
 
-                be.IsNext = isNext;
-                isNext = false;
+                be.IsNext = i == 1;
 
                 // create a list of those listed as not participating 
                 be.NotParticipating = (from np in _participants

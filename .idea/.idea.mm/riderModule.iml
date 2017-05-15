@@ -1,21 +1,24 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <module type="RIDER_MODULE" version="4">
   <component name="NewModuleRootManager">
-    <content url="file://$USER_HOME$/.nuget/packages/xunit.runner.visualstudio/2.2.0-beta5-build1225/build/netcoreapp1.0/xunit.runner.reporters.dotnet.dll">
-      <sourceFolder url="file://$USER_HOME$/.nuget/packages/xunit.runner.visualstudio/2.2.0-beta5-build1225/build/netcoreapp1.0/xunit.runner.reporters.dotnet.dll" isTestSource="false" />
+    <content url="file://$USER_HOME$/.nuget/packages/Microsoft.DiaSymReader.Native/1.4.0/runtimes/win/native">
+      <sourceFolder url="file://$USER_HOME$/.nuget/packages/Microsoft.DiaSymReader.Native/1.4.0/runtimes/win/native" isTestSource="false" />
     </content>
-    <content url="file://$USER_HOME$/.nuget/packages/xunit.runner.visualstudio/2.2.0-beta5-build1225/build/netcoreapp1.0/xunit.runner.utility.dotnet.dll">
-      <sourceFolder url="file://$USER_HOME$/.nuget/packages/xunit.runner.visualstudio/2.2.0-beta5-build1225/build/netcoreapp1.0/xunit.runner.utility.dotnet.dll" isTestSource="false" />
+    <content url="file://$USER_HOME$/.nuget/packages/mstest.testadapter/1.1.13/build/_common/Microsoft.VisualStudio.TestPlatform.MSTest.TestAdapter.dll">
+      <sourceFolder url="file://$USER_HOME$/.nuget/packages/mstest.testadapter/1.1.13/build/_common/Microsoft.VisualStudio.TestPlatform.MSTest.TestAdapter.dll" isTestSource="false" />
     </content>
-    <content url="file://$USER_HOME$/.nuget/packages/xunit.runner.visualstudio/2.2.0-beta5-build1225/build/netcoreapp1.0/xunit.runner.visualstudio.dotnetcore.testadapter.dll">
-      <sourceFolder url="file://$USER_HOME$/.nuget/packages/xunit.runner.visualstudio/2.2.0-beta5-build1225/build/netcoreapp1.0/xunit.runner.visualstudio.dotnetcore.testadapter.dll" isTestSource="false" />
+    <content url="file://$USER_HOME$/.nuget/packages/mstest.testadapter/1.1.13/build/_common/Microsoft.VisualStudio.TestPlatform.MSTestAdapter.PlatformServices.Interface.dll">
+      <sourceFolder url="file://$USER_HOME$/.nuget/packages/mstest.testadapter/1.1.13/build/_common/Microsoft.VisualStudio.TestPlatform.MSTestAdapter.PlatformServices.Interface.dll" isTestSource="false" />
+    </content>
+    <content url="file://$USER_HOME$/.nuget/packages/mstest.testadapter/1.1.13/build/netstandard1.0/Microsoft.VisualStudio.TestPlatform.MSTestAdapter.PlatformServices.dll">
+      <sourceFolder url="file://$USER_HOME$/.nuget/packages/mstest.testadapter/1.1.13/build/netstandard1.0/Microsoft.VisualStudio.TestPlatform.MSTestAdapter.PlatformServices.dll" isTestSource="false" />
     </content>
     <content url="file://$MODULE_DIR$/../..">
       <sourceFolder url="file://$MODULE_DIR$/../../src/mm" isTestSource="false" />
-      <sourceFolder url="file://$MODULE_DIR$/../../src/Tests" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/../../Tests" isTestSource="false" />
+      <excludeFolder url="file://$MODULE_DIR$/../../Tests/bin" />
+      <excludeFolder url="file://$MODULE_DIR$/../../Tests/obj" />
       <excludeFolder url="file://$MODULE_DIR$/../../packages" />
-      <excludeFolder url="file://$MODULE_DIR$/../../src/Tests/bin" />
-      <excludeFolder url="file://$MODULE_DIR$/../../src/Tests/obj" />
       <excludeFolder url="file://$MODULE_DIR$/../../src/mm/bin" />
       <excludeFolder url="file://$MODULE_DIR$/../../src/mm/obj" />
     </content>

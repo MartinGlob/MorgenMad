@@ -21,13 +21,20 @@ namespace mm.Controllers
             b = new BreakfastLogic(_ds);
         }
 
-        [HttpGet("/")]
-        public async Task<IActionResult> Index()
+        [HttpGet("/{n?}")]
+        public async Task<IActionResult> Index(int? n)
         {
             if (!await b.AuthenticateUser(User.Identity.Name))
                 return RedirectToAction("NewUser");
 
-            return View(b.CreateEventList(10, 40));
+            var view = b.CreateEventList(n ?? 3, 40);
+
+            if (b.LastIGave.HasValue)
+                ViewData["HiText"] = $"Hi {b.User.Name}! The last time you gave breakfast was {b.LastIGave.Value.ToString("dd-MMM yyyy")}";
+            else
+                ViewData["HiText"] = $"Hi {b.User.Name}! Soon you expirience the great feeling of buying breakfast to your colleagues";
+
+            return View(view);
         }
 
         [HttpGet("ChangeStatus/{when}/{id}/{status}")]
