@@ -116,6 +116,9 @@ namespace mm.DataStore
             // add a new entry depending on what the participant WAS doing
             switch (participant.Participating)
             {
+                case Participation.WasBuying:
+                    participant.Participating = Participation.Buying;
+                    break;
                 case Participation.Buying:
                     participant.Participating = Participation.NotParticipating;
                     break;

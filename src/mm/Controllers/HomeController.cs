@@ -112,16 +112,26 @@ namespace mm.Controllers
             }
         }
 
-        [HttpGet("Housekeeping")]
+        [HttpGet("bdone")]
         public async Task<IActionResult> Housekeeping()
         {
-            var teams = _ds.GetTeams().Result;
-            foreach (var t in teams)
+            if (!await b.AuthenticateUser(User.Identity.Name))
+                return NotFound();
+            var v = b.CreateEventList(0,1);
+            if (v.Breakfasts[0].When == DateTime.Today.ToUniversalTime())
             {
-                b.User = new Person { TeamId = t.Id };
-                var evt = b.CreateEventList(0, 1, reloadTeam: true);
+                var p = new Participant(v.Breakfasts[0].When, b.Team.Id, v.Breakfasts[0].Buying.Id, Participation.WasBuying);
+                b.ChangeParticipation(p);
             }
 
+            //var teams = _ds.GetTeams().Result;
+            //foreach (var t in teams)
+            //{
+            //    b.User = new Person { TeamId = t.Id };
+            //    var evt = b.CreateEventList(0, 1, reloadTeam: true);
+            //}
+
+            
             return Ok();
         }
 

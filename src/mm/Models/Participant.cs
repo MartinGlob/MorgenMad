@@ -4,7 +4,7 @@ using MongoDB.Bson.Serialization.Attributes;
 
 namespace mm.Models
 {
-    public enum Participation { Buying = 1, Participating = 2, NotParticipating = 3, Override = 4 }
+    public enum Participation { Buying = 1, Participating = 2, NotParticipating = 3, Override = 4 , WasBuying = 5}
 
     public class Participant
     {
